@@ -1,58 +1,175 @@
 <!doctype html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#11120f"><meta name="description" content="MICROVERSE COMPLETE: LIMINAL, a first-person 3D exploration through impossible places."><title>MICROVERSE COMPLETE | LIMINAL</title>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#11110f">
+<meta name="description" content="LIMINAL by MICROVERSE COMPLETE. An atmospheric first-person exploration through spaces between places.">
+<title>LIMINAL — MICROVERSE COMPLETE</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;600;700;800&display=swap');
-:root{color-scheme:dark;--acid:#d6dc9b}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#10110f;color:#efefe5;font-family:Manrope,Arial,sans-serif}#world{position:fixed;inset:0}canvas{display:block;width:100%;height:100%}
-.top{position:fixed;z-index:3;top:0;left:0;right:0;height:70px;padding:0 28px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(#0b0c0bd9,transparent);pointer-events:none}.brand{font-weight:800;letter-spacing:.17em;font-size:13px}.brand small{display:block;margin-top:4px;font:9px 'DM Mono';letter-spacing:.2em;color:#b9b9a8}.status,.eyebrow,.controls,.kicker,.foot{font-family:'DM Mono';letter-spacing:.14em}.status{font-size:9px;color:var(--acid)}.hud{position:fixed;z-index:3;left:28px;bottom:24px;pointer-events:none}.eyebrow{font-size:9px;color:#c4c5a8}.location{font-size:23px;font-weight:700;letter-spacing:-.04em;margin-top:7px}.desc{font-size:11px;color:#b7b8a9;margin-top:5px}.controls{position:fixed;z-index:3;right:26px;bottom:24px;text-align:right;font-size:9px;line-height:1.9;color:#c1c2b2;pointer-events:none}.key{display:inline-block;border:1px solid #ffffff55;border-radius:4px;padding:1px 5px;background:#1113;color:white}.crosshair{position:fixed;z-index:2;left:50%;top:50%;width:5px;height:5px;border:1px solid #ffffffb0;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none}.prompt{position:fixed;z-index:4;left:50%;top:57%;transform:translateX(-50%);padding:9px 13px;border:1px solid #ffffff55;background:#111c;border-radius:4px;font:10px 'DM Mono';letter-spacing:.08em;opacity:0;transition:opacity .2s;pointer-events:none}.prompt.show{opacity:1}.overlay{position:fixed;z-index:10;inset:0;display:grid;place-items:center;background:radial-gradient(ellipse at center,#1a1c17cc,#090a09f2);padding:22px}.panel{width:min(540px,100%);padding:34px;border:1px solid #64665366;background:#11130fee;box-shadow:0 25px 100px #0009}.kicker{font-size:9px;color:var(--acid)}h1{font-size:clamp(42px,8vw,76px);line-height:.9;letter-spacing:-.08em;margin:18px 0 12px}h1 span{color:var(--acid)}.intro{max-width:390px;color:#b5b6a9;font-size:13px;line-height:1.8}.start{margin-top:25px;padding:14px 20px;border:0;background:var(--acid);color:#171910;font:11px 'DM Mono';letter-spacing:.1em;cursor:pointer}.foot{margin-top:18px;color:#797b70;font-size:9px;line-height:1.8}#map{position:fixed;z-index:3;top:88px;right:26px;width:150px;padding:12px;border:1px solid #ffffff28;background:#1119;font:9px 'DM Mono';color:#bcbdaa}#map strong{display:block;color:#e7e8d9;font-weight:500;margin-bottom:8px}#map button{display:block;width:100%;text-align:left;padding:7px 0;border:0;border-top:1px solid #ffffff19;background:none;color:#aaaD9c;font:9px 'DM Mono';cursor:pointer}#map button:hover{color:var(--acid)}#sound{position:fixed;z-index:3;top:88px;left:28px;background:#1119;border:1px solid #ffffff28;color:#c7c8b9;padding:8px 10px;font:9px 'DM Mono';cursor:pointer}@media(max-width:650px){.top{padding:0 16px}.hud{left:16px;bottom:18px}.controls{right:16px;bottom:18px;font-size:8px}.location{font-size:19px}#map{right:12px;top:78px;width:126px}#sound{left:14px;top:78px}.panel{padding:25px}}
-</style></head><body>
-<div id="world"></div><header class="top"><div class="brand">◉ MICROVERSE COMPLETE<small>AN EXPERIMENT IN OTHER PLACES</small></div><div class="status">● EXPERIENCE 001 / LIMINAL</div></header>
-<div class="crosshair"></div><div class="hud"><div class="eyebrow" id="chapter">SECTOR 01 / THE OFFICE</div><div class="location" id="place">The Yellow Hall</div><div class="desc" id="subtitle">A familiar place with something missing.</div></div>
-<div class="controls"><span class="key">W A S D</span> MOVE &nbsp; <span class="key">MOUSE</span> LOOK<br><span class="key">SHIFT</span> WALK FASTER &nbsp; <span class="key">E</span> INTERACT<br><span class="key">ESC</span> RELEASE CURSOR</div>
-<div id="map"><strong>LOCATIONS</strong><button data-zone="office">01 — THE OFFICE</button><button data-zone="pool">02 — BLUE HOURS</button><button data-zone="mall">03 — AFTER HOURS</button><button data-zone="garage">04 — THE DEEP LEVEL</button></div>
-<button id="sound">♫ AMBIENCE ON</button><div class="prompt" id="prompt">[ E ] ENTER THE NEXT PLACE</div>
-<div class="overlay" id="intro"><div class="panel"><div class="kicker">MICROVERSE COMPLETE PRESENTS</div><h1>LI<span>MI</span>NAL</h1><div class="intro">Places caught between memory and imagination. Walk through spaces that feel familiar, quiet, and impossibly endless. There is nowhere you need to be.</div><button class="start" id="begin">ENTER THE EXPERIENCE ↗</button><div class="foot">BEST EXPERIENCED WITH HEADPHONES<br>DESKTOP: WASD + MOUSE · MOBILE TOUCH CONTROLS NOT YET AVAILABLE</div></div></div>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
+:root{color-scheme:dark;--ink:#e9e8df;--muted:#aaa99d;--quiet:#74746b;--line:#ffffff25;--panel:#12130ff0;--accent:#d6d5ad}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#11120f;color:var(--ink);font-family:Manrope,Arial,sans-serif}button{font:inherit}#world{position:fixed;inset:0}canvas{display:block;width:100%;height:100%}
+#vignette{position:fixed;inset:0;pointer-events:none;background:linear-gradient(180deg,#07080675 0%,transparent 22%,transparent 70%,#07080685 100%),radial-gradient(ellipse at center,transparent 52%,#07080635 100%);z-index:1}
+.topbar{position:fixed;z-index:3;top:0;left:0;right:0;height:76px;padding:0 34px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff12;background:linear-gradient(180deg,#090a08a8,transparent);pointer-events:none}
+.wordmark{font-size:11px;font-weight:800;letter-spacing:.19em}.wordmark span{color:#aaa995;font-weight:500}.submark{margin-top:5px;font:8px 'DM Mono';letter-spacing:.2em;color:#9b9c8d}.edition{font:9px 'DM Mono';letter-spacing:.15em;color:#c5c5af}.edition i{display:inline-block;width:5px;height:5px;border-radius:50%;background:#bfc49a;margin:0 8px 1px 0;box-shadow:0 0 10px #c9d39b}
+.nav{position:fixed;z-index:4;right:30px;top:104px;width:194px;padding:14px 15px;background:#10110ed9;border:1px solid #ffffff20;backdrop-filter:blur(14px)}
+.navhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font:8px 'DM Mono';letter-spacing:.17em;color:#929387}.navhead span:last-child{color:#62645b}
+.nav button{width:100%;display:flex;gap:11px;align-items:center;text-align:left;padding:10px 0;border:0;border-top:1px solid #ffffff12;background:none;color:#999a8d;cursor:pointer;font-size:10px;transition:color .2s}
+.nav button .num{font:9px 'DM Mono';color:#62645c}.nav button.active,.nav button:hover{color:#efeee4}.nav button.active .num{color:var(--accent)}
+.sound{position:fixed;z-index:4;left:30px;top:104px;border:1px solid #ffffff22;background:#10110ed9;color:#c5c5b8;padding:10px 13px;font:8px 'DM Mono';letter-spacing:.12em;cursor:pointer;backdrop-filter:blur(14px)}
+.bottom{position:fixed;z-index:3;left:34px;right:34px;bottom:28px;display:flex;align-items:flex-end;justify-content:space-between;pointer-events:none}
+.place .index{font:9px 'DM Mono';letter-spacing:.18em;color:#c7c7a8}.place h2{font-size:clamp(22px,3vw,34px);font-weight:600;letter-spacing:-.055em;margin:7px 0 4px}.place p{font-size:11px;color:#b4b4a9;margin:0;letter-spacing:.01em}
+.help{text-align:right;color:#b8b8ac;font:8px 'DM Mono';line-height:2;letter-spacing:.08em}.key{display:inline-block;min-width:18px;padding:1px 4px;text-align:center;border:1px solid #ffffff50;border-radius:2px;color:#f1f0e6;margin-left:3px}
+.crosshair{position:fixed;z-index:2;left:50%;top:50%;width:6px;height:6px;border:1px solid #ffffffaa;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;opacity:.75}
+.interact{position:fixed;z-index:4;left:50%;top:58%;transform:translate(-50%,8px);padding:10px 14px;border:1px solid #ffffff45;background:#10110ee8;color:#eeeee3;font:9px 'DM Mono';letter-spacing:.1em;opacity:0;transition:.2s;pointer-events:none}.interact.visible{opacity:1;transform:translate(-50%,0)}
+.intro{position:fixed;z-index:10;inset:0;display:grid;place-items:center;padding:22px;background:radial-gradient(ellipse at 50% 42%,#29291fbb 0%,#10110ff2 62%,#090a08 100%);transition:opacity .55s,visibility .55s}.intro.hidden{opacity:0;visibility:hidden}
+.intro-card{width:min(610px,100%);padding:clamp(28px,5vw,52px);border:1px solid #ffffff24;background:linear-gradient(145deg,#171812f5,#0d0e0bf5);box-shadow:0 30px 110px #0009}
+.overline{font:9px 'DM Mono';letter-spacing:.23em;color:#bfc09e}.title{font-size:clamp(56px,10vw,104px);line-height:.82;letter-spacing:-.095em;font-weight:600;margin:28px 0 22px}.title span{color:#c5c5a5}.intro-copy{max-width:400px;color:#b7b7aa;font-size:13px;line-height:1.85}.intro-meta{display:flex;gap:24px;margin-top:30px;padding-top:18px;border-top:1px solid #ffffff1b;font:8px 'DM Mono';letter-spacing:.12em;color:#85867b}.enter{display:inline-flex;align-items:center;gap:24px;margin-top:28px;padding:14px 18px;border:1px solid #d4d3b2;background:#d4d3b2;color:#171811;font:9px 'DM Mono';letter-spacing:.14em;cursor:pointer;transition:.2s}.enter:hover{background:#eeedd7;border-color:#eeedd7}.enter b{font-size:15px;font-weight:400}
+#toast{position:fixed;z-index:6;left:50%;top:90px;transform:translateX(-50%);padding:9px 13px;background:#11120fe8;border:1px solid #ffffff20;color:#d5d5c7;font:8px 'DM Mono';letter-spacing:.12em;opacity:0;transition:opacity .2s;pointer-events:none}#toast.show{opacity:1}
+@media(max-width:700px){.topbar{height:62px;padding:0 17px}.edition{font-size:7px}.nav{top:auto;bottom:130px;right:15px;width:156px;padding:10px}.nav button{padding:7px 0;font-size:9px}.sound{left:15px;top:78px}.bottom{left:18px;right:18px;bottom:18px}.place h2{font-size:23px}.place p{max-width:220px;font-size:10px}.help{font-size:7px}.intro-meta{gap:12px;flex-wrap:wrap}}
+</style>
+</head>
+<body>
+<div id="world"></div><div id="vignette"></div>
+<header class="topbar"><div><div class="wordmark">MICROVERSE <span> / COMPLETE</span></div><div class="submark">AN EXPERIMENT IN OTHER PLACES</div></div><div class="edition"><i></i>FIELD STUDY 001&nbsp; / &nbsp;LIMINAL</div></header>
+<button class="sound" id="sound">SOUND&nbsp; / &nbsp;ON</button>
+<nav class="nav"><div class="navhead"><span>AVAILABLE SPACES</span><span>04</span></div><button class="active" data-zone="office"><span class="num">01</span> THE YELLOW HALL</button><button data-zone="pool"><span class="num">02</span> BLUE HOURS</button><button data-zone="mall"><span class="num">03</span> AFTER HOURS</button><button data-zone="garage"><span class="num">04</span> THE DEEP LEVEL</button></nav>
+<div class="crosshair"></div><div class="interact" id="interact">[ E ] &nbsp; PASS THROUGH</div><div id="toast"></div>
+<footer class="bottom"><div class="place"><div class="index" id="chapter">SPACE 01 &nbsp; / &nbsp; OFFICE WING</div><h2 id="place">The Yellow Hall</h2><p id="description">The lights have been on for a very long time.</p></div><div class="help"><div><span class="key">W</span><span class="key">A</span><span class="key">S</span><span class="key">D</span> MOVE &nbsp; <span class="key">MOUSE</span> LOOK</div><div><span class="key">SHIFT</span> WALK FASTER &nbsp; <span class="key">E</span> ENTER</div><div><span class="key">ESC</span> RELEASE CURSOR</div></div></footer>
+<section class="intro" id="intro"><div class="intro-card"><div class="overline">MICROVERSE COMPLETE &nbsp; / &nbsp; PRESENTS</div><h1 class="title">LIMI<span>NAL</span></h1><p class="intro-copy">An atlas of places between places. Walk through quiet architecture, familiar rooms, and spaces that seem to continue long after they should have ended.</p><div class="intro-meta"><span>FIRST-PERSON EXPLORATION</span><span>04 ENVIRONMENTS</span><span>DESKTOP EXPERIENCE</span></div><button class="enter" id="enter">ENTER THE QUIET <b>↗</b></button></div></section>
 <script type="module">
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.171.0/build/three.module.js';
-const host=document.getElementById('world'),scene=new THREE.Scene();scene.background=new THREE.Color('#c9bd80');scene.fog=new THREE.Fog('#c9bd80',8,32);
-const camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,.1,180);camera.position.set(0,1.65,7);
-const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.08;host.appendChild(renderer.domElement);
-const clock=new THREE.Clock();let zone='office',yaw=0,pitch=0,locked=false,nearDoor=false,move={f:0,b:0,l:0,r:0,fast:0},soundOn=true,audioCtx=null,humOsc=null,humGain=null;
-const mat=(c,r=.9,m=0)=>new THREE.MeshStandardMaterial({color:c,roughness:r,metalness:m});
-const M={office:{wall:mat('#c8bd83'),floor:mat('#9c936b'),ceil:mat('#d5ca91'),trim:mat('#b7a96e'),light:0xffe9ad,fog:'#c9bd80',far:34},pool:{wall:mat('#b6d8d6'),floor:mat('#4f9e9c',.25),ceil:mat('#c6e7e0'),trim:mat('#83c7c3'),light:0xb6ffff,fog:'#77b5b3',far:29},mall:{wall:mat('#b8b7ac'),floor:mat('#777a78',.35),ceil:mat('#d2d0c4'),trim:mat('#a6a69a'),light:0xfff1d5,fog:'#a6a69a',far:42},garage:{wall:mat('#555a58'),floor:mat('#353b3a',.55),ceil:mat('#454a48'),trim:mat('#8b8d80'),light:0xd5e0d4,fog:'#555d5a',far:26}};
-function box(w,h,d,m,x,y,z,shadow=true){const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);o.position.set(x,y,z);o.receiveShadow=true;o.castShadow=shadow;scene.add(o);return o}
-function clear(){for(let i=scene.children.length-1;i>=0;i--){const o=scene.children[i];scene.remove(o);if(o.geometry)o.geometry.dispose()}}
-function light(x,y,z,color,intensity=2){box(1.65,.07,.32,mat('#f4f0d8',.4),x,y,z,false);const p=new THREE.PointLight(color,intensity,11,1.7);p.position.set(x,y-.12,z);scene.add(p)}
-function build(){
- clear();const m=M[zone];scene.background=new THREE.Color(m.fog);scene.fog=new THREE.Fog(m.fog,7,m.far);scene.add(new THREE.HemisphereLight(0xffffff,zone==='garage'?0x252a28:0x7c7965,zone==='garage'?.6:1.05));
- box(22,.25,54,m.floor,0,-.15,-8,false);box(22,.3,54,m.ceil,0,3.25,-8,false);box(.3,3.3,54,m.wall,-11,1.5,-8);box(.3,3.3,54,m.wall,11,1.5,-8);
- for(let z=17;z>-34;z-=8){box(.3,3.3,.3,m.trim,-10.8,1.5,z);box(.3,3.3,.3,m.trim,10.8,1.5,z)}
- for(let z=13;z>-30;z-=6){light(-4.8,3.02,z,m.light,zone==='garage'?1.4:2.4);light(4.8,3.02,z-2,m.light,zone==='garage'?1.4:2.1);
- if(zone==='office'){for(const s of [-1,1]){box(2.8,.08,.22,m.trim,s*9.1,2.05,z-2);box(2.8,.08,.22,m.trim,s*9.1,1.15,z-2)}}
- if(zone==='pool'){const p=mat('#d1e9df');box(.55,3.2,.55,p,-7,1.5,z);box(.55,3.2,.55,p,7,1.5,z)}
- if(zone==='mall'){for(const s of [-1,1]){box(3.4,2.5,.18,mat('#777a73'),s*8.5,1.25,z);box(3.5,.12,.25,mat('#e5dfc8'),s*8.5,2.55,z)}}
- if(zone==='garage'){for(const s of [-1,1]){box(.15,2.7,.15,m.trim,s*8,1.3,z);box(2,.12,.12,m.trim,s*8,2.7,z)}}}
- if(zone==='pool'){const water=new THREE.Mesh(new THREE.PlaneGeometry(9,19),new THREE.MeshPhysicalMaterial({color:'#278f9c',roughness:.12,metalness:.15,transparent:true,opacity:.8}));water.rotation.x=-Math.PI/2;water.position.set(0,.012,-8);scene.add(water);for(let z=0;z>-19;z-=3)box(9,.018,.045,mat('#b3e9e4',.3),0,.025,z,false)}
- if(zone==='mall'){for(let z=10;z>-28;z-=12){box(5,.2,2,mat('#77766b'),0,.15,z);box(5,1.2,.12,mat('#d0cbbd'),0,.8,z-.9)}}
- if(zone==='garage'){for(let z=10;z>-28;z-=10)for(const s of [-1,1]){box(2,1,4,mat(s===-1?'#777c79':'#8b7669',.45,.3),s*5,.55,z);box(1.65,.65,2.1,mat('#505755',.35,.25),s*5,1.25,z-.1)}}
- // Bright exit portal at the far end.
- const frame=m.trim;box(2.35,3.25,.22,frame,0,1.62,-30);box(.22,3.25,.22,frame,-1.06,1.62,-30);box(.22,3.25,.22,frame,1.06,1.62,-30);box(2.35,.22,.22,frame,0,3.14,-30);const glow=new THREE.PointLight(m.light,3,13);glow.position.set(0,2,-29);scene.add(glow);
- for(let z=15;z>-31;z-=4){const seam=box(21,.012,.018,mat('#ffffff',.8),0,.005,z,false);seam.material.transparent=true;seam.material.opacity=.12}
+const $=s=>document.querySelector(s), world=$('#world');
+const scene=new THREE.Scene();scene.background=new THREE.Color('#c9bd91');
+const camera=new THREE.PerspectiveCamera(72,innerWidth/innerHeight,.1,140);camera.position.set(0,1.65,10);
+const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;renderer.outputColorSpace=THREE.SRGBColorSpace;world.appendChild(renderer.domElement);
+const clock=new THREE.Clock();let current='office',yaw=0,pitch=0,locked=false,nearExit=false,soundOn=true,audio=null,osc=null,gain=null;
+const mats=(color,rough=.86,metal=0)=>new THREE.MeshStandardMaterial({color,roughness:rough,metalness:metal});
+const palettes={
+ office:{wall:'#c9c092',wall2:'#b9b087',floor:'#88836b',ceiling:'#d6d0aa',trim:'#9d956c',light:0xffedbd,fog:'#c4bb91',ambient:0xaaa17d},
+ pool:{wall:'#b8d1cb',wall2:'#8daea8',floor:'#728f89',ceiling:'#c5d9d1',trim:'#789a94',light:0xd3f4ee,fog:'#8caeaa',ambient:0x718e89},
+ mall:{wall:'#c3c0b5',wall2:'#aaa99e',floor:'#777a75',ceiling:'#d2d0c6',trim:'#8d8e85',light:0xffe9c4,fog:'#aaa99e',ambient:0x77796f},
+ garage:{wall:'#666b67',wall2:'#4e5551',floor:'#383e3b',ceiling:'#555b57',trim:'#a3a28e',light:0xdce4d4,fog:'#59615d',ambient:0x343b37}
+};
+let group=new THREE.Group();scene.add(group);let colliders=[];
+function material(color,rough=.86,metal=0){return mats(color,rough,metal)}
+function addBox(parent,w,h,d,mat,x,y,z,cast=false){const mesh=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);mesh.position.set(x,y,z);mesh.castShadow=cast;mesh.receiveShadow=true;parent.add(mesh);return mesh}
+function addLight(x,y,z,color,intensity,range){const lamp=addBox(group,1.45,.045,.27,material('#f3f0df',.38),x,y,z);const point=new THREE.PointLight(color,intensity,range,1.8);point.position.set(x,y-.15,z);group.add(point)}
+function addBaseboard(side,zStart,zEnd,mat){const length=zStart-zEnd;addBox(group,.09,.13,length,mat,side*5.92,.12,(zStart+zEnd)/2)}
+function clearWorld(){while(group.children.length){const o=group.children.pop();if(o.geometry)o.geometry.dispose();if(o.material){if(Array.isArray(o.material))o.material.forEach(m=>m.dispose());else o.material.dispose()}}colliders=[]}
+function buildShell(p){
+ // Room dimensions: 12m wide, 3.8m high, 48m long. Faces meet edge-to-edge, never overlap visibly.
+ addBox(group,12,.22,48,material(p.floor,.92),0,-.11,-9,false);
+ addBox(group,12,.18,48,material(p.ceiling,.95),0,3.82,-9,false);
+ addBox(group,.18,3.8,48,material(p.wall),-6,1.8,-9,false);
+ addBox(group,.18,3.8,48,material(p.wall),6,1.8,-9,false);
+ addBaseboard(-1,15,-33,material(p.trim));addBaseboard(1,15,-33,material(p.trim));
+ // Recessed ceiling coves and repeated, evenly spaced fixtures.
+ for(let z=12;z>-31;z-=7){addBox(group,2.1,.035,.52,material('#e8e4cf',.5),0,3.70,z);addLight(-2.5,3.61,z,p.light,1.35,9);addLight(2.5,3.61,z-3,p.light,1.25,9)}
 }
-const Z={office:['The Yellow Hall','A familiar place with something missing.','SECTOR 01 / THE OFFICE'],pool:['Blue Hours','Water without a source. Echoes without a voice.','SECTOR 02 / THE POOLROOMS'],mall:['After Hours','The shops are closed. The lights are still on.','SECTOR 03 / THE MALL'],garage:['The Deep Level','You have gone farther underground than expected.','SECTOR 04 / THE GARAGE']};
-function setZone(z){zone=z;build();camera.position.set(0,1.65,7);yaw=0;pitch=0;camera.rotation.set(0,0,0);document.getElementById('place').textContent=Z[z][0];document.getElementById('subtitle').textContent=Z[z][1];document.getElementById('chapter').textContent=Z[z][2];document.querySelectorAll('[data-zone]').forEach(b=>b.style.color=b.dataset.zone===z?'#d6dc9b':'#aaaD9c')}
-setZone('office');
-function audio(){if(!soundOn)return;try{audioCtx??=new AudioContext();audioCtx.resume();if(!humOsc){humOsc=audioCtx.createOscillator();humGain=audioCtx.createGain();const f=audioCtx.createBiquadFilter();f.type='lowpass';f.frequency.value=180;humOsc.type='sine';humOsc.frequency.value=60;humGain.gain.value=.012;humOsc.connect(f);f.connect(humGain);humGain.connect(audioCtx.destination);humOsc.start()}humOsc.frequency.setTargetAtTime(zone==='pool'?48:zone==='garage'?42:zone==='mall'?54:60,audioCtx.currentTime,.5)}catch(e){}}
-document.getElementById('sound').onclick=()=>{soundOn=!soundOn;document.getElementById('sound').textContent=soundOn?'♫ AMBIENCE ON':'♫ AMBIENCE OFF';if(!soundOn&&humGain)humGain.gain.setTargetAtTime(0,audioCtx.currentTime,.2);else audio()};
+function addDoor(side,z,p,accent=false){
+ const x=side*5.87,door=material(accent?'#77796e':p.wall2,.8),frame=material(p.trim,.7);
+ addBox(group,.06,2.55,1.42,door,x,1.29,z);
+ addBox(group,.13,2.72,.09,frame,x-side*.05,1.36,z-.76);
+ addBox(group,.13,2.72,.09,frame,x-side*.05,1.36,z+.76);
+ addBox(group,.13,.1,1.58,frame,x-side*.05,2.7,z);
+ addBox(group,.09,.12,.12,material('#b4aa83',.45,.4),x-side*.12,1.2,z+.48);
+}
+function buildOffice(p){
+ buildShell(p);
+ // Modular wall panels and restrained door rhythm.
+ for(let z=10;z>-29;z-=9){for(const s of [-1,1]){addBox(group,.025,2.35,5.9,material('#d4cda8'),s*5.895,1.55,z-2.8);addDoor(s,z-1.5,p)}}
+ // A few distant desks, placed clear of the walking axis and each other.
+ for(const z of [-8,-19])for(const s of [-1,1]){
+  const x=s*4.35;addBox(group,1.5,.09,.8,material('#827b60'),x,.82,z);
+  addBox(group,.07,.82,.07,material('#655f4c'),x-.62,.4,z-.28);addBox(group,.07,.82,.07,material('#655f4c'),x+.62,.4,z-.28);
+  addBox(group,.62,.42,.08,material('#393d37',.55),x,.58,z-.23);
+ }
+}
+function buildPool(p){
+ buildShell(p);
+ // Pool basin sits below the deck. Separate deck strips leave a clean, visible water opening.
+ const deck=material(p.floor,.35,.08),waterMat=new THREE.MeshPhysicalMaterial({color:'#397f80',roughness:.16,metalness:.12,clearcoat:.8,clearcoatRoughness:.12});
+ addBox(group,4.15,.18,48,deck,-3.925,-.02,-9);addBox(group,4.15,.18,48,deck,3.925,-.02,-9);
+ addBox(group,3.7,.18,13,deck,0,-.02,8.55);addBox(group,3.7,.18,13,deck,0,-.02,-26.55);
+ addBox(group,6.1,.45,22,material('#527c78'),0,-.28,-9,false);
+ const water=new THREE.Mesh(new THREE.PlaneGeometry(5.8,21.7),waterMat);water.rotation.x=-Math.PI/2;water.position.set(0,-.045,-9);group.add(water);
+ for(const s of [-1,1]){addBox(group,.16,.7,22,material('#c1d2c8'),s*3.05,.12,-9);for(let z=8;z>-25;z-=8)addBox(group,.48,3.35,.48,material('#d2ddd1'),s*5,1.7,z,false)}
+ // Pool lane markings visible beneath shallow water.
+ for(let z=0;z>-19;z-=4)addBox(group,5.45,.012,.025,material('#a8d4ca',.3),0,-.025,z,false);
+}
+function buildMall(p){
+ buildShell(p);
+ // Storefront bays: framed glass planes are inset, with consistent module spacing.
+ const glass=new THREE.MeshStandardMaterial({color:'#777d78',roughness:.24,metalness:.25,transparent:true,opacity:.58});
+ for(let z=10;z>-29;z-=9)for(const s of [-1,1]){
+  const x=s*5.78;addBox(group,.08,2.7,6.1,material('#a7a69b'),x,1.42,z-2.4);
+  const pane=new THREE.Mesh(new THREE.PlaneGeometry(2.7,2.05),glass);pane.rotation.y=s===-1?Math.PI/2:-Math.PI/2;pane.position.set(s*5.72,1.55,z-2.5);group.add(pane);
+  addBox(group,.12,2.3,.08,material('#c5c2b5'),s*5.68,1.5,z-3.9);addBox(group,.12,2.3,.08,material('#c5c2b5'),s*5.68,1.5,z-1.1);
+  addBox(group,.14,.12,2.9,material('#d1cdbc'),s*5.68,2.7,z-2.5);
+ }
+ // Central benches remain outside the direct centerline.
+ for(const z of [-8,-21]){addBox(group,2.2,.16,.58,material('#656a64'),0,.52,z);for(const x of [-.9,.9])addBox(group,.12,.5,.12,material('#555b55'),x,.25,z)}
+}
+function buildGarage(p){
+ buildShell(p);
+ for(let z=12;z>-31;z-=9)for(const s of [-1,1]){
+  const x=s*4.9;addBox(group,.48,3.7,.48,material('#777c74'),x,1.8,z,false);
+  addBox(group,1.5,.055,.06,material('#c2c0a9'),x,2.6,z+.55);
+  // Painted bay lines, not floating geometry.
+  addBox(group,.045,.012,5.3,material('#d0c9a1'),s*3.8,.008,z-2.6,false);
+ }
+ // Parking stops and numbered wall markers provide scale without cluttering the route.
+ for(let z=7;z>-27;z-=9)for(const s of [-1,1]){
+  addBox(group,2.25,.16,.38,material('#555d57'),s*3.65,.08,z);
+  addBox(group,.9,.5,.035,material('#d1cfb9'),s*5.82,2.45,z-1.3);
+ }
+}
+function buildExit(p){
+ const z=-31.6,frame=material(p.trim,.55),dark=material('#171b18',.9),glow=new THREE.PointLight(p.light,1.8,8);
+ addBox(group,1.9,2.9,.16,dark,0,1.45,z,false);
+ addBox(group,.12,3.1,.2,frame,-1.02,1.55,z);addBox(group,.12,3.1,.2,frame,1.02,1.55,z);addBox(group,2.15,.12,.2,frame,0,3.08,z);
+ glow.position.set(0,2,z+1);group.add(glow);
+}
+const spaces={
+ office:{name:'The Yellow Hall',chapter:'SPACE 01  /  OFFICE WING',desc:'The lights have been on for a very long time.',build:buildOffice},
+ pool:{name:'Blue Hours',chapter:'SPACE 02  /  AQUATIC CENTRE',desc:'The water is still. The room is not.',build:buildPool},
+ mall:{name:'After Hours',chapter:'SPACE 03  /  RETAIL CONCOURSE',desc:'Every storefront is closed. None of the lights are.',build:buildMall},
+ garage:{name:'The Deep Level',chapter:'SPACE 04  /  LOWER PARKING',desc:'A level below the last marked floor.',build:buildGarage}
+};
+function setSpace(id,reset=true){
+ current=id;const p=palettes[id];clearWorld();scene.background=new THREE.Color(p.fog);scene.fog=new THREE.Fog(p.fog,8,id==='mall'?48:37);
+ group.add(new THREE.HemisphereLight(0xf1eedc,p.ambient,id==='garage'?.72:.9));
+ const key=new THREE.DirectionalLight(0xffedcf,id==='garage'?.55:.75);key.position.set(-3,8,4);key.castShadow=true;key.shadow.mapSize.set(1024,1024);key.shadow.camera.left=-9;key.shadow.camera.right=9;key.shadow.camera.top=9;key.shadow.camera.bottom=-9;key.shadow.bias=-.00025;group.add(key);
+ spaces[id].build(p);buildExit(p);
+ camera.position.set(0,1.65,10);yaw=0;pitch=0;camera.rotation.set(0,0,0);
+ $('#chapter').textContent=spaces[id].chapter;$('#place').textContent=spaces[id].name;$('#description').textContent=spaces[id].desc;
+ document.querySelectorAll('[data-zone]').forEach(b=>b.classList.toggle('active',b.dataset.zone===id));
+ nearExit=false;$('#interact').classList.remove('visible');if(audio)audio.frequency.setTargetAtTime(id==='pool'?47:id==='garage'?41:id==='mall'?53:59,audioCtx.currentTime,.5);
+}
+setSpace('office');
+function startAudio(){if(!soundOn)return;try{audioCtx??=new AudioContext();audioCtx.resume();if(!audio){audio=audioCtx.createOscillator();gain=audioCtx.createGain();const filter=audioCtx.createBiquadFilter();filter.type='lowpass';filter.frequency.value=145;audio.type='sine';audio.frequency.value=59;gain.gain.value=.009;audio.connect(filter);filter.connect(gain);gain.connect(audioCtx.destination);audio.start()}}catch(e){}}
+$('#sound').onclick=()=>{soundOn=!soundOn;$('#sound').textContent='SOUND  /  '+(soundOn?'ON':'OFF');if(soundOn)startAudio();else if(gain)gain.gain.setTargetAtTime(0,audioCtx.currentTime,.15);if(gain&&soundOn)gain.gain.setTargetAtTime(.009,audioCtx.currentTime,.15)};
 function capture(){renderer.domElement.requestPointerLock?.()}
-document.getElementById('begin').onclick=()=>{document.getElementById('intro').style.display='none';audio();capture()};
+$('#enter').onclick=()=>{$('#intro').classList.add('hidden');startAudio();capture()};
 document.addEventListener('pointerlockchange',()=>locked=document.pointerLockElement===renderer.domElement);
-document.addEventListener('mousemove',e=>{if(!locked)return;yaw-=e.movementX*.0022;pitch=THREE.MathUtils.clamp(pitch-e.movementY*.0018,-1.35,1.35);camera.rotation.order='YXZ';camera.rotation.set(pitch,yaw,0)});
-document.addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(k==='w'||k==='arrowup')move.f=1;if(k==='s'||k==='arrowdown')move.b=1;if(k==='a'||k==='arrowleft')move.l=1;if(k==='d'||k==='arrowright')move.r=1;if(k==='shift')move.fast=1;if(k==='e'&&nearDoor)next()});
-document.addEventListener('keyup',e=>{const k=e.key.toLowerCase();if(k==='w'||k==='arrowup')move.f=0;if(k==='s'||k==='arrowdown')move.b=0;if(k==='a'||k==='arrowleft')move.l=0;if(k==='d'||k==='arrowright')move.r=0;if(k==='shift')move.fast=0});
-renderer.domElement.addEventListener('click',()=>{if(!locked&&document.getElementById('intro').style.display==='none')capture()});
-function next(){const a=['office','pool','mall','garage'];setZone(a[(a.indexOf(zone)+1)%a.length]);audio()}
-document.querySelectorAll('[data-zone]').forEach(b=>b.onclick=()=>{setZone(b.dataset.zone);audio()});
-function tick(dt){if(locked){const s=(move.fast?7:3.5)*dt,f=new THREE.Vector3(-Math.sin(yaw),0,-Math.cos(yaw)),r=new THREE.Vector3(Math.cos(yaw),0,-Math.sin(yaw));camera.position.addScaledVector(f,(move.f-move.b)*s);camera.position.addScaledVector(r,(move.r-move.l)*s);camera.position.x=THREE.MathUtils.clamp(camera.position.x,-9.5,9.5);camera.position.z=THREE.MathUtils.clamp(camera.position.z,-31,17);camera.position.y=1.65}nearDoor=camera.position.z<-26.5;document.getElementById('prompt').classList.toggle('show',nearDoor)}
-function animate(){requestAnimationFrame(animate);tick(Math.min(clock.getDelta(),.05));renderer.render(scene,camera)}animate();
+document.addEventListener('mousemove',e=>{if(!locked)return;yaw-=e.movementX*.002;pitch=THREE.MathUtils.clamp(pitch-e.movementY*.0017,-1.25,1.25);camera.rotation.order='YXZ';camera.rotation.set(pitch,yaw,0)});
+const keys={w:false,a:false,s:false,d:false,shift:false};
+document.addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(k in keys)keys[k]=true;if(k==='e'&&nearExit)nextSpace();});
+document.addEventListener('keyup',e=>{const k=e.key.toLowerCase();if(k in keys)keys[k]=false});
+renderer.domElement.addEventListener('click',()=>{if(!locked&&$('#intro').classList.contains('hidden'))capture()});
+function nextSpace(){const order=['office','pool','mall','garage'];setSpace(order[(order.indexOf(current)+1)%order.length]);}
+document.querySelectorAll('[data-zone]').forEach(b=>b.addEventListener('click',()=>setSpace(b.dataset.zone)));
+function movement(dt){
+ if(locked){const speed=(keys.shift?5.2:2.65)*dt,forward=new THREE.Vector3(-Math.sin(yaw),0,-Math.cos(yaw)),right=new THREE.Vector3(Math.cos(yaw),0,-Math.sin(yaw)),old=camera.position.clone();
+ camera.position.addScaledVector(forward,(Number(keys.w)-Number(keys.s))*speed);camera.position.addScaledVector(right,(Number(keys.d)-Number(keys.a))*speed);
+ camera.position.x=THREE.MathUtils.clamp(camera.position.x,-5.25,5.25);camera.position.z=THREE.MathUtils.clamp(camera.position.z,-32.8,13.5);
+ // The pool is a real open basin: keep the explorer on the surrounding deck.
+ if(current==='pool'&&camera.position.z<2&&camera.position.z>-20&&Math.abs(camera.position.x)<3.55)camera.position.copy(old);
+ }
+ nearExit=camera.position.z<-29.2;$('#interact').classList.toggle('visible',nearExit);
+}
+function animate(){requestAnimationFrame(animate);movement(Math.min(clock.getDelta(),.04));renderer.render(scene,camera)}animate();
 addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
-</script></body></html>
+</script>
+</body></html>
