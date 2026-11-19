@@ -30,7 +30,7 @@ THE HOLLOW is the first survival-horror experience inside MICROVERSE COMPLETE. E
 - [Cesium Man](https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/CesiumMan) by Cesium — CC BY 4.0, used as the external rigged character model for the jumpscare when the remote GLB is available.
 - [Three.js](https://threejs.org) — MIT License.
 
-The in-game credits view includes the asset-source acknowledgements. Please retain the original model attribution when redistributing this project.
+The in-game credits view includes clickable source acknowledgements. Poly Haven requests a clear visible credit when its live API is used; the Vercel API route sends the project-specific User-Agent. Please retain the original model attribution when redistributing this project.
 
 ## Run and deploy
 
