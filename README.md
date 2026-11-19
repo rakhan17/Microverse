@@ -1,33 +1,33 @@
 # MICROVERSE COMPLETE
-### LIMINAL — An atmospheric 3D exploration
+### THE HOLLOW — First-person survival horror
 
-LIMINAL is a first-person exploration experience about spaces that feel familiar, quiet, and subtly out of place. Move through four environments built with procedural architecture, restrained materials, atmospheric lighting, and a minimal interface.
+**THE HOLLOW** is the first horror experience inside MICROVERSE COMPLETE. Explore a decaying, isolated house surrounded by a black forest. The current build focuses on one room and its environmental storytelling: damaged wallpaper, damp stains, scattered books, old furniture, a cold fireplace, unsettling portraits, a covered statue, and interactive doors.
 
-![Status](https://img.shields.io/badge/status-experimental-aaa98b) ![Platform](https://img.shields.io/badge/platform-web-blue) ![Rendering](https://img.shields.io/badge/rendering-Three.js-black)
+![Status](https://img.shields.io/badge/status-prototype-8d1717) ![Platform](https://img.shields.io/badge/platform-web-black) ![Rendering](https://img.shields.io/badge/rendering-Three.js-white)
 
-## Environments
+## Experience
 
-| Space | Environment |
-|---|---|
-| 01 — The Yellow Hall | A warm office corridor with repeating architectural bays and quiet work areas. |
-| 02 — Blue Hours | An empty aquatic centre with a recessed pool basin and cool, diffuse light. |
-| 03 — After Hours | A closed retail concourse with glass storefronts and sparse seating. |
-| 04 — The Deep Level | A subdued underground parking level with structural columns and parking bays. |
+- A dark forest title screen with lightning and a distant axe-bearing silhouette.
+- A first-person exploration space with atmospheric fog, shadows, practical lights, and a handheld flashlight.
+- Procedural surface textures for worn wallpaper, cracks, aged wood, grime, and stylized blood stains.
+- Three interactive doors with opening and closing animation.
+- Environmental scares: a portrait whose eyes follow the player, a subtly moving statue, flickering lights, and intermittent lightning.
+- A low synthesized ambient drone.
+
+The horror props are fictional environmental set dressing. The current prototype does not contain graphic body-destruction scenes, combat, or a functioning weapon system.
 
 ## Controls
 
 - **W / A / S / D** — Move
 - **Mouse** — Look around
-- **Shift** — Move faster
-- **E** — Pass through the exit when prompted
+- **Shift** — Run
+- **E** — Open or close a nearby door
 - **Esc** — Release pointer lock
-- Select a location from the upper-right navigation to travel directly.
-
-Click the scene to capture the mouse again after releasing it.
+- Click the game view to capture the mouse again.
 
 ## Run and deploy
 
-The project is a static web application. It can be served from the repository root or deployed to Vercel.
+This is a static web application. Serve the repository root or deploy it to Vercel.
 
 **Vercel settings**
 - Framework preset: **Other**
@@ -37,24 +37,16 @@ The project is a static web application. It can be served from the repository ro
 
 Three.js is loaded from jsDelivr and fonts from Google Fonts, so an internet connection is required.
 
-## Current scope
+## Current scope and known limitations
 
-This is an atmospheric visual exploration prototype. The environments use procedural Three.js geometry rather than photogrammetry or scanned architectural assets. The ambience is a synthesized low-frequency tone. There are no NPCs, objectives, save system, advanced physics, or mobile touch controls yet. The exit interaction transitions between the four authored spaces.
+This is an early playable visual prototype, not a finished horror game. The focus is the first house environment; additional rooms, progression, objectives, enemy AI, save/load, spatial audio, mobile controls, and a full collision/physics system are not implemented yet. Geometry and surface maps are generated procedurally in the browser rather than sourced from scanned or photogrammetric assets. Visual quality and performance still need in-browser testing across devices.
 
-## Design and technology
+## Technology
 
 - Three.js for real-time 3D rendering.
 - Vanilla HTML, CSS, and JavaScript.
-- Modular room construction with consistent dimensions and material palettes.
-- Fog, hemisphere and directional lighting, shadows, and a restrained interface.
-
-## Roadmap
-
-- Add richer architectural details and unique environmental storytelling.
-- Improve surface materials with optimized texture maps.
-- Add spatial environmental audio and subtle reactive details.
-- Add mobile controls and accessibility options.
-- Add more spaces and connected exploration routes.
+- Procedural CanvasTextures and modular geometry.
+- WebGL shadows, fog, tone mapping, and animated lighting.
 
 ---
-**MICROVERSE COMPLETE** is the project. **LIMINAL** is its first 3D exploration experience.
+**MICROVERSE COMPLETE** is the project. **THE HOLLOW** is its first survival-horror experience.
