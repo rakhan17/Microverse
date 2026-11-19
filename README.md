@@ -25,7 +25,8 @@ His father is away. The doors to the rest of the estate are waiting. Somewhere i
 | Shift | Run |
 | E | Interact with the highlighted object or door |
 | 1–5 | Select inventory slot |
-| Esc | Release mouse pointer |
+| Esc | Open / close pause menu |
+| J | Open journal (planned) |
 | Click game view | Capture mouse again |
 
 ## Story direction
@@ -51,6 +52,18 @@ Deploy the repository root to Vercel with:
 - Install command: empty
 
 The project loads Three.js and selected models over HTTPS. The Poly Haven proxy at `/api/polyhaven` requires a serverless deployment such as Vercel; it will not work from a plain static file opened directly from disk.
+
+## Browser regression tests
+
+The repository includes Playwright smoke tests for the rendered 3D canvas, main-menu settings, cinematic credits, prologue skipping, and the ESC pause flow. GitHub Actions runs these tests on pushes and pull requests. A passing CI run verifies the tested browser paths, not a complete commercial release or every possible GPU/browser combination.
+
+Run locally with:
+
+```bash
+npm install
+npx playwright install chromium
+npm run test:e2e
+```
 
 ## Known limitations
 
