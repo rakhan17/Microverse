@@ -13,7 +13,7 @@ His father is away. The doors to the rest of the estate are waiting. Somewhere i
 - Early estate grounds: damaged approach, abandoned sedan, disturbed earth mounds, dead trees, broken garden wall, old fountain, weeds, rubble, and a decaying bench.
 - First-person movement, mouse look, sprint, pointer lock, and an interaction prompt.
 - Doors to future rooms are placed around the main hall and can be opened and closed.
-- Five inventory slots, pickup interactions, flashlight, settings for sensitivity/FOV/ambience, and credits.
+- Five inventory slots, pickup interactions, flashlight, settings for sensitivity/FOV/ambience, and credits.\n- Three physical investigation clues, a journal, and an evidence-gated chapter exit requiring the mansion key.\n- A basic pursuer AI that activates after the second clue and chases the player.\n- Local browser checkpoint save/load for position, inventory, and collected clues, with periodic autosaves.
 - A scripted threat sequence and death/retry screen.
 
 ## Controls
@@ -26,12 +26,12 @@ His father is away. The doors to the rest of the estate are waiting. Somewhere i
 | E | Interact with the highlighted object or door |
 | 1–5 | Select inventory slot |
 | Esc | Open / close pause menu |
-| J | Open journal (planned) |
+| J | Open / close investigation journal |
 | Click game view | Capture mouse again |
 
 ## Story direction
 
-The first chapter is deliberately focused on the mansion's grand hall. Doors are visible as future destinations, but the rooms behind them are not yet complete. The investigation, clues, enemy AI, combat, save system, and additional chapters remain future development.
+The first playable investigation loop now asks Libert to find three pieces of evidence, connect the name Marlow to the attack, recover the mansion key, and reach the exit. A simple pursuer activates after the second clue. The journal records discovered evidence and browser checkpoints preserve progress. The grand hall and estate remain the main playable space; connected rooms, deeper enemy behaviours, combat, and additional chapters are still in development.
 
 The prologue uses stylized 3D tableaux and camera movement rather than motion-captured cinematic performances. The mother's death is treated as a serious family tragedy and is not shown graphically.
 
@@ -67,7 +67,7 @@ npm run test:e2e
 
 ## Known limitations
 
-This is an expanding prototype, not a finished commercial horror game. The current build has no complete enemy AI, clue/puzzle chain, combat system, full collision/physics simulation, save/load, or finished connected rooms. The prologue is a stylized 3D storyboard, not a fully motion-captured short film. Remote assets can fail and fall back to procedural geometry. Browser runtime and visual testing are still required on the deployed site.
+This is an expanding prototype, not a finished commercial horror game. The current build has a basic pursuer rather than a complete enemy AI, a short three-clue investigation rather than a branching mystery, and local browser checkpoints rather than cross-device cloud saves. It still has no combat system, full collision/physics simulation, or finished connected rooms. The prologue is a stylized 3D storyboard, not a fully motion-captured short film. Remote assets can fail and fall back to procedural geometry. Browser runtime and visual testing are still required on the deployed site.
 
 ---
 **MICROVERSE COMPLETE** is the project. **THE HOLLOW** is its first survival-horror chapter.
