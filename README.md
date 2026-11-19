@@ -1,52 +1,60 @@
 # MICROVERSE COMPLETE
-### THE HOLLOW — First-person survival horror
+### THE HOLLOW | A psychological survival horror
 
-THE HOLLOW is the first survival-horror experience inside MICROVERSE COMPLETE. Explore a decaying house at the edge of a forest, find useful items, and try to leave before the thing outside finds you.
+**THE HOLLOW** follows Libert, an only child raised by his father in an enormous, isolated mansion. After a family tragedy and years of grief, one ordinary night turns into a nightmare. Libert wakes in the mansion's ruined grand hall, injured and disoriented, with the feeling that nearly two days have disappeared.
 
-## Current experience
+His father is away. The doors to the rest of the estate are waiting. Somewhere in the house is the answer to three questions: who attacked him, what do they want, and how can he survive long enough to uncover the truth?
 
-- Black forest title screen with intermittent lightning. The distant figure is only revealed during lightning flashes and changes sides between appearances.
-- First-person exploration in one abandoned house, with a real exit opening, window openings, damp wall detailing, old furniture, books, a fireplace, a portrait, and a moving statue.
-- Wider flashlight cone and atmospheric fog, shadowing, and flickering practical lights.
-- Aim-based interaction: the selected object receives a gold outline and a nearby action label. Press **E** to interact.
-- Five-slot inventory bar with pickup items.
-- Doors can be opened and closed. The exit triggers a cinematic jumpscare.
-- Settings for mouse sensitivity, field of view, and ambience volume.
-- A cinematic credits view.
+## Current build
+
+- Main menu with a dark forest, timed lightning flashes, and a distant axe-bearing silhouette.
+- Eight-part cinematic prologue introducing the family's loss, the mother's decline and death, Libert's grief, his father's departure, the bedroom attack, and Libert waking in the grand hall.
+- An enlarged mansion reception hall with monumental columns, a multi-tier chandelier, velvet salon seating, a large carpet, portrait gallery, decorative stair flights, fireplace, statue, and scattered debris.
+- Early estate grounds: damaged approach, abandoned sedan, disturbed earth mounds, dead trees, broken garden wall, old fountain, weeds, rubble, and a decaying bench.
+- First-person movement, mouse look, sprint, pointer lock, and an interaction prompt.
+- Doors to future rooms are placed around the main hall and can be opened and closed.
+- Five inventory slots, pickup interactions, flashlight, settings for sensitivity/FOV/ambience, and credits.
+- A scripted threat sequence and death/retry screen.
 
 ## Controls
 
-- **W / A / S / D** — Move
-- **Mouse** — Look around
-- **Shift** — Run
-- **E** — Interact with the highlighted object
-- **1–5** — Select inventory slot
-- **Esc** — Release pointer lock
-- Click the game view to capture the mouse again.
+| Input | Action |
+|---|---|
+| W / A / S / D | Move |
+| Mouse | Look around |
+| Shift | Run |
+| E | Interact with the highlighted object or door |
+| 1–5 | Select inventory slot |
+| Esc | Release mouse pointer |
+| Click game view | Capture mouse again |
+
+## Story direction
+
+The first chapter is deliberately focused on the mansion's grand hall. Doors are visible as future destinations, but the rooms behind them are not yet complete. The investigation, clues, enemy AI, combat, save system, and additional chapters remain future development.
+
+The prologue uses stylized 3D tableaux and camera movement rather than motion-captured cinematic performances. The mother's death is treated as a serious family tragedy and is not shown graphically.
 
 ## External assets and credits
 
-- [Poly Haven](https://polyhaven.com) — CC0 3D asset library and public API. The prototype attempts to load the Arm Chair 01 and Barrel 01 models through the Poly Haven files API. Procedural fallbacks remain in place if a remote asset cannot be loaded.
-- [Cesium Man](https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/CesiumMan) by Cesium — CC BY 4.0, used as the external rigged character model for the jumpscare when the remote GLB is available.
+- [Poly Haven](https://polyhaven.com) — CC0 asset library and API. The project attempts to load selected furniture models through the serverless proxy; procedural substitutes remain available.
+- [Cesium Man](https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/CesiumMan) by Cesium — CC BY 4.0, used as a remote rigged character fallback for the scripted scare.
 - [Three.js](https://threejs.org) — MIT License.
 
-The in-game credits view includes clickable source acknowledgements. Poly Haven requests a clear visible credit when its live API is used; the Vercel API route sends the project-specific User-Agent. Please retain the original model attribution when redistributing this project.
+The in-game credits acknowledge these sources. Keep the original attribution when redistributing the project.
 
 ## Run and deploy
 
-This is a static web application. Serve the repository root or deploy it to Vercel.
-
-**Vercel settings**
+Deploy the repository root to Vercel with:
 - Framework preset: **Other**
-- Build command: leave empty
+- Build command: empty
 - Output directory: **.**
-- Install command: leave empty
+- Install command: empty
 
-The app loads Three.js, GLTFLoader, and remote model assets over HTTPS, so an internet connection is required.
+The project loads Three.js and selected models over HTTPS. The Poly Haven proxy at `/api/polyhaven` requires a serverless deployment such as Vercel; it will not work from a plain static file opened directly from disk.
 
-## Current scope and limitations
+## Known limitations
 
-This is an early playable prototype focused on the first house. The character asset and Poly Haven models load remotely and may fall back if a provider is unavailable or a model format cannot be resolved. The player has basic movement boundaries rather than a complete physics/collision system. The jumpscare is a scripted sequence, not a full combat or damage simulation. Additional rooms, puzzles, save/load, and mobile controls are not implemented yet.
+This is an expanding prototype, not a finished commercial horror game. The current build has no complete enemy AI, clue/puzzle chain, combat system, full collision/physics simulation, save/load, or finished connected rooms. The prologue is a stylized 3D storyboard, not a fully motion-captured short film. Remote assets can fail and fall back to procedural geometry. Browser runtime and visual testing are still required on the deployed site.
 
 ---
-**MICROVERSE COMPLETE** is the project. **THE HOLLOW** is its first survival-horror experience.
+**MICROVERSE COMPLETE** is the project. **THE HOLLOW** is its first survival-horror chapter.
