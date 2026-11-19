@@ -45,7 +45,12 @@ function createDoor(x,z,side,label){const pivot=new THREE.Group();pivot.position
 function makeRoom(){
 block(house,12,.3,16,floorMaterial,0,-.17,0);block(house,12,.3,16,material('#151311'),0,3.72,0);
 // continuous wall sections with one actual open exit at the far end
-block(house,.25,3.7,16,wallMaterial,-6,1.7,0);block(house,.25,3.7,16,wallMaterial,6,1.7,0);
+for(const side of [-1,1]){
+block(house,.25,3.7,2.3,wallMaterial,side*6,1.7,-6.85);
+block(house,.25,3.7,11.9,wallMaterial,side*6,1.7,2.05);
+block(house,.25,1.1,1.8,wallMaterial,side*6,.55,-4.8);
+block(house,.25,.3,1.8,wallMaterial,side*6,3.55,-4.8);
+}
 block(house,4.7,3.7,.25,wallMaterial,-3.65,1.7,-8);block(house,4.7,3.7,.25,wallMaterial,3.65,1.7,-8);block(house,2.6,1.15,.25,wallMaterial,0,3.1,-8);
 block(house,12,3.7,.25,wallMaterial,0,1.7,8);
 // skirting boards and ceiling beams
@@ -59,7 +64,7 @@ for(const x of [-3.7,3.7]){ // window openings in side wall, wall segments are s
 const outside=block(house,2.5,3.4,.025,material('#020505'),0,1.7,-11,false);
 for(let i=0;i<22;i++){const x=(Math.random()-.5)*18,z=-13-Math.random()*8,h=4+Math.random()*5;const trunk=block(house,.18,h,.18,material('#080b09'),x,h/2,-14+z*.1);trunk.rotation.z=(Math.random()-.5)*.1;for(let j=0;j<3;j++)ball(house,1.2,material('#030605'),x+(Math.random()-.5),h*.7+j*.4,-14+z*.1,1.4,.7,1.2)}
 // window frames with dark glass, actual dark panes and muntins
-for(const x of [-3.8,3.8]){const side=Math.sign(x),z=-4.8;block(house,.12,2.3,.14,trim,x,2.25,z);block(house,.12,2.3,.14,trim,x,2.25,z+1.8);block(house,1.9,.12,.14,trim,x,1.1,z+.9);block(house,1.9,.12,.14,trim,x,3.4,z+.9);const pane=block(house,.035,2.18,1.7,material('#071012',.2,.25),x-side*.08,2.25,z+.9,false);pane.material.transparent=true;pane.material.opacity=.65;block(house,.08,2.15,.07,trim,x,2.25,z+.9)}
+for(const x of [-6,6]){const side=Math.sign(x),z=-4.8,plane=x-side*.12;block(house,.12,2.3,.14,trim,plane,2.25,z-.9);block(house,.12,2.3,.14,trim,plane,2.25,z+.9);block(house,.12,.12,1.9,trim,plane,1.1,z);block(house,.12,.12,1.9,trim,plane,3.4,z);const pane=block(house,.025,2.15,1.75,material('#071012',.2,.25),plane+side*.04,2.25,z,false);pane.material.transparent=true;pane.material.opacity=.8;block(house,.07,2.1,.07,trim,plane+side*.09,2.25,z)}
 // light sources and hanging fixtures
 for(const x of [-2.7,2.7]){cylinder(house,.025,.025,.75,rust,x,3.1,-1);cylinder(house,.22,.34,.22,trim,x,2.65,-1);const bulb=new THREE.PointLight(0xffb879,.55,5,2);bulb.position.set(x,2.48,-1);house.add(bulb);bulb.userData.base=.55;bulbs.push(bulb)}
 // fireplace
@@ -80,7 +85,7 @@ block(house,.92,1.2,.12,trim,1.55,2.35,-7.78);block(house,.76,1.02,.03,material(
 // statue: coherent pedestal, torso, head, arms and robe; turns slowly
 const statue=new THREE.Group();statue.position.set(-1.8,0,-4.5);house.add(statue);block(statue,.85,.22,.85,trim,0,.11,0);block(statue,.55,1.15,.38,material('#77746c'),0,.82,0);ball(statue,.28,material('#858176'),0,1.55,0,.85,1.15,.8);for(const x of [-.37,.37]){const arm=block(statue,.16,.78,.17,material('#716e65'),x,.9,0);arm.rotation.z=x*.45}for(const x of [-.1,.1])ball(statue,.035,material('#171614'),x,1.58,.22);statue.userData.base=0;animatedStatue=statue;
 // exit is a clear, walkable opening. It is an interaction volume, not a wall/door.
-const exitTrigger=new THREE.Mesh(new THREE.BoxGeometry(2.5,2.8,.8),new THREE.MeshBasicMaterial({visible:false}));exitTrigger.position.set(0,1.4,-8.3);exitTrigger.userData={action:'exit',label:'KELUAR DARI RUMAH'};house.add(exitTrigger);interactables.push(exitTrigger);
+const exitTrigger=new THREE.Mesh(new THREE.BoxGeometry(2.5,2.8,.8),new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false}));exitTrigger.position.set(0,1.4,-8.3);exitTrigger.userData={action:'exit',label:'KELUAR DARI RUMAH'};house.add(exitTrigger);interactables.push(exitTrigger);
 // pick-up objects
 const flashlightItem=new THREE.Group();flashlightItem.position.set(2.5,1.1,-2.1);house.add(flashlightItem);cylinder(flashlightItem,.07,.09,.48,material('#171a1c',.4,.8),0,0,0);cylinder(flashlightItem,.075,.075,.08,material('#a88c55',.3,.6),0,.23,0);addInteractable(flashlightItem,'pickup','AMBIL SENTER',{item:'SENTER',icon:'🔦'});
 const keyItem=ball(house,.11,gold,-3.2,.16,-4.4);addInteractable(keyItem,'pickup','AMBIL KUNCI',{item:'KUNCI',icon:'⚿'});
@@ -93,14 +98,31 @@ function buildMenuForest(){const trees=new THREE.Group();forestMenu.add(trees);f
 const stalker=new THREE.Group();forestMenu.add(stalker);const dark=material('#020303');cylinder(stalker,.24,.34,1.45,dark,0,1.35,0,10);ball(stalker,.23,dark,0,2.3,0,.8,1.1,.8);for(const x of [-.3,.3]){const arm=block(stalker,.13,.9,.14,dark,x,1.45,0);arm.rotation.z=x*.3;block(stalker,.14,.95,.14,dark,x,.45,0)}block(stalker,.08,.8,.08,dark,.43,1.15,0);block(stalker,.5,.13,.07,material('#6b6258'),.68,1.58,0);block(stalker,.12,.46,.07,material('#544b43'),.9,1.78,0);stalker.userData.switchSide=0;stalker.userData.baseY=0;menuStalker=stalker}
 let menuStalker=null;buildMenuForest();scene.add(menuFill);
 const ambient=new THREE.HemisphereLight(0x293333,0x0d0907,.22);scene.add(ambient);const moon=new THREE.DirectionalLight(0x9aaabd,.12);moon.position.set(-8,10,-5);moon.castShadow=true;moon.shadow.mapSize.set(2048,2048);moon.shadow.camera.left=-10;moon.shadow.camera.right=10;moon.shadow.camera.top=10;moon.shadow.camera.bottom=-10;scene.add(moon);
-const flashlightBeam=new THREE.SpotLight(0xffdfb0,65,22,Math.PI/4,.48,1.3);camera.add(flashlightBeam);flashlightBeam.position.set(.15,-.12,-.2);flashlightBeam.target.position.set(0,-.15,-5);camera.add(flashlightBeam.target);scene.add(camera);
+const flashlightBeam=new THREE.SpotLight(0xffdfb0,0,22,Math.PI/3,.48,1.3);camera.add(flashlightBeam);flashlightBeam.position.set(.15,-.12,-.2);flashlightBeam.target.position.set(0,-.15,-5);camera.add(flashlightBeam.target);scene.add(camera);
 const raycaster=new THREE.Raycaster(),center=new THREE.Vector2(0,0),outline=new THREE.BoxHelper(new THREE.Object3D(),0xe6bd4d);outline.material.depthTest=false;outline.material.transparent=true;outline.material.opacity=.95;outline.visible=false;scene.add(outline);
-function setInventory(){const root=$('#inventory');root.innerHTML='';for(let i=0;i<5;i++){const item=inventory[i];const slot=document.createElement('button');slot.className='slot'+(activeSlot===i?' active':'');slot.innerHTML='<small>'+(i+1)+'</small><span>'+(item?.icon||'·')+'</span><em>'+(item?.name||'KOSONG')+'</em>';slot.onclick=()=>{activeSlot=i;setInventory();if(item?.name==='SENTER')flashlightBeam.intensity=65};root.appendChild(slot)}}
-function addItem(name,icon){if(inventory.length>=5){notify('INVENTORY PENUH');return}if(inventory.some(i=>i.name===name)){notify('ITEM SUDAH DIMILIKI');return}inventory.push({name,icon});setInventory();notify(name+' DIDAPATKAN')}
+function setInventory(){const root=$('#inventory');root.innerHTML='';for(let i=0;i<5;i++){const item=inventory[i];const slot=document.createElement('button');slot.className='slot'+(activeSlot===i?' active':'');slot.innerHTML='<small>'+(i+1)+'</small><span>'+(item?.icon||'·')+'</span><em>'+(item?.name||'KOSONG')+'</em>';slot.onclick=()=>{activeSlot=i;setInventory();flashlightBeam.intensity=item?.name==='SENTER'?65:0};root.appendChild(slot)}}
+function addItem(name,icon){if(inventory.length>=5){notify('INVENTORY PENUH');return}if(inventory.some(i=>i.name===name)){notify('ITEM SUDAH DIMILIKI');return}inventory.push({name,icon});activeSlot=inventory.length-1;setInventory();if(name==='SENTER')flashlightBeam.intensity=65;notify(name+' DIDAPATKAN')}
 function notify(s){const t=$('#toast');t.textContent=s;t.classList.add('show');clearTimeout(notify.timer);notify.timer=setTimeout(()=>t.classList.remove('show'),1700)}
 function rayTarget(){raycaster.setFromCamera(center,camera);const hits=raycaster.intersectObjects(interactables,true);for(const hit of hits){let o=hit.object;while(o&&o!==house&&!o.userData.action)o=o.parent;if(o?.userData.action&&hit.distance<4.2)return{o,point:hit.point}}return null}
 function updateAim(){const hit=rayTarget();selected=hit?.o||null;outline.visible=!!selected;if(selected){outline.setFromObject(selected);const p=selected.getWorldPosition(new THREE.Vector3()).project(camera);const x=(p.x*.5+.5)*innerWidth,y=(-p.y*.5+.5)*innerHeight;const tag=$('#actionTag');tag.style.left=x+'px';tag.style.top=(y-38)+'px';$('#actionText').textContent=selected.userData.label;tag.classList.add('show')}else $('#actionTag').classList.remove('show')}
 function interact(){if(!selected)return;const d=selected.userData;if(d.action==='door'){const door=d.door;door.open=!door.open;door.target=door.open?door.side*Math.PI*.48:0;notify(door.open?'PINTU TERBUKA':'PINTU TERTUTUP')}else if(d.action==='pickup'){addItem(d.item,d.icon);house.remove(selected);const i=interactables.indexOf(selected);if(i>=0)interactables.splice(i,1);selected=null}else if(d.action==='exit'){triggerKill()}}
+async function loadPolyHavenModel(assetId,position,scale=0.001){
+try{
+const response=await fetch('https://api.polyhaven.com/files/'+assetId,{headers:{'Accept':'application/json','X-Requested-With':'MICROVERSE-COMPLETE'}});
+if(!response.ok)throw new Error('Poly Haven API '+response.status);
+const data=await response.json(),files=[];
+const visit=value=>{if(!value||typeof value!=='object')return;for(const [key,item] of Object.entries(value)){if(item&&typeof item==='object'&&typeof item.url==='string')files.push({key,...item});visit(item)}};
+visit(data);
+const candidate=files.find(f=>/\\.(glb|gltf)(\\?|$)/i.test(f.url));
+if(!candidate)throw new Error('No glTF model file found for '+assetId);
+const manager=new THREE.LoadingManager();
+manager.setURLModifier(url=>{const base=decodeURIComponent(url.split('/').pop().split('?')[0]);const match=files.find(f=>decodeURIComponent(f.url.split('/').pop().split('?')[0])===base);return match?.url||url});
+const loader=new GLTFLoader(manager),gltf=await loader.loadAsync(candidate.url),model=gltf.scene;
+model.scale.setScalar(scale);model.position.set(...position);model.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true}});house.add(model);
+}catch(error){console.warn('Poly Haven model fallback:',assetId,error)}
+}
+loadPolyHavenModel('ArmChair_01',[2.5,0,-.55],.001);
+loadPolyHavenModel('Barrel_01',[-4.1,0,3.7],.001);
 function createKiller(){const g=new THREE.Group();scene.add(g);g.position.set(0,0,-4);const skin=material('#141211'),coat=material('#090909'),metal=material('#655d52',.35,.8);const torso=block(g,.72,1.2,.38,coat,0,1.55,0),head=ball(g,.25,skin,0,2.32,0,.85,1.1,.8);const parts={torso,head,arms:[],legs:[]};for(const x of [-.48,.48]){const armPivot=new THREE.Group();armPivot.position.set(x,2,0);g.add(armPivot);block(armPivot,.17,.78,.18,coat,0,-.35,0);parts.arms.push(armPivot);const legPivot=new THREE.Group();legPivot.position.set(x*.48,1,0);g.add(legPivot);block(legPivot,.23,.95,.25,coat,0,-.45,0);parts.legs.push(legPivot)}const axe=block(g,.09,.9,.08,skin,.63,1.65,.03);axe.rotation.z=-.35;block(g,.45,.18,.06,metal,.82,2.03,.03);g.visible=false;return{g,parts,axe}}
 const killer=createKiller();function triggerKill(){if(exitTriggered)return;exitTriggered=true;state='jumpscare';document.exitPointerLock?.();killer.g.position.copy(camera.position).add(new THREE.Vector3(0,0,-2).applyEuler(camera.rotation));killer.g.rotation.y=yaw+Math.PI;killer.g.visible=true;$('#actionTag').classList.remove('show');const start=performance.now();function scare(){const p=Math.min((performance.now()-start)/1500,1);killer.g.position.lerpVectors(camera.position.clone().add(new THREE.Vector3(0,0,-2).applyEuler(camera.rotation)),camera.position.clone().add(new THREE.Vector3(0,0,-.75).applyEuler(camera.rotation)),p);killer.parts.arms[0].rotation.z=-p*1.8;killer.parts.arms[1].rotation.z=p*1.4;killer.parts.legs[0].rotation.x=p*.4;killer.parts.legs[1].rotation.x=-p*.3;camera.position.x+=(Math.random()-.5)*.055;camera.position.y+=(Math.random()-.5)*.055;if(p<1)requestAnimationFrame(scare);else{$('#death').classList.add('show')}}requestAnimationFrame(scare)}
 function startAudio(){try{audioCtx??=new AudioContext();audioCtx.resume();if(!humGain){const osc=audioCtx.createOscillator(),filter=audioCtx.createBiquadFilter();humGain=audioCtx.createGain();osc.type='sawtooth';osc.frequency.value=42;filter.type='lowpass';filter.frequency.value=90;humGain.gain.value=Number($('#volume').value);osc.connect(filter);filter.connect(humGain);humGain.connect(audioCtx.destination);osc.start()}}catch(e){}}
