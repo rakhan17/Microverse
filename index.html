@@ -57,9 +57,9 @@ function addBox(parent,w,h,d,mat,x,y,z,cast=true){const mesh=new THREE.Mesh(new 
 function addLight(x,y,z,color,intensity,range){const lamp=addBox(group,1.45,.045,.27,material('#f3f0df',.38),x,y,z);const point=new THREE.PointLight(color,intensity,range,1.8);point.position.set(x,y-.15,z);group.add(point)}
 function addBaseboard(side,zStart,zEnd,mat){const length=zStart-zEnd;addBox(group,.09,.13,length,mat,side*5.92,.12,(zStart+zEnd)/2)}
 function clearWorld(){while(group.children.length){const o=group.children.pop();if(o.geometry)o.geometry.dispose();if(o.material){if(Array.isArray(o.material))o.material.forEach(m=>m.dispose());else o.material.dispose()}}colliders=[]}
-function buildShell(p){
+function buildShell(p,withFloor=true){
  // Room dimensions: 12m wide, 3.8m high, 48m long. Faces meet edge-to-edge, never overlap visibly.
- addBox(group,12,.22,48,material(p.floor,.92),0,-.11,-9,false);
+ if(withFloor)addBox(group,12,.22,48,material(p.floor,.92),0,-.11,-9,false);
  addBox(group,12,.18,48,material(p.ceiling,.95),0,3.82,-9,false);
  addBox(group,.18,3.8,48,material(p.wall),-6,1.8,-9,false);
  addBox(group,.18,3.8,48,material(p.wall),6,1.8,-9,false);
@@ -87,11 +87,11 @@ function buildOffice(p){
  }
 }
 function buildPool(p){
- buildShell(p);
+ buildShell(p,false);
  // Pool basin sits below the deck. Separate deck strips leave a clean, visible water opening.
  const deck=material(p.floor,.35,.08),waterMat=new THREE.MeshPhysicalMaterial({color:'#397f80',roughness:.16,metalness:.12,clearcoat:.8,clearcoatRoughness:.12});
- addBox(group,4.15,.18,48,deck,-3.925,-.02,-9);addBox(group,4.15,.18,48,deck,3.925,-.02,-9);
- addBox(group,3.7,.18,13,deck,0,-.02,8.55);addBox(group,3.7,.18,13,deck,0,-.02,-26.55);
+ addBox(group,3,.18,48,deck,-4.5,-.02,-9);addBox(group,3,.18,48,deck,4.5,-.02,-9);
+ addBox(group,6.1,.18,13,deck,0,-.02,8.55);addBox(group,6.1,.18,13,deck,0,-.02,-26.55);
  addBox(group,6.1,.45,22,material('#527c78'),0,-.28,-9,false);
  const water=new THREE.Mesh(new THREE.PlaneGeometry(5.8,21.7),waterMat);water.rotation.x=-Math.PI/2;water.position.set(0,-.045,-9);group.add(water);
  for(const s of [-1,1]){addBox(group,.16,.7,22,material('#c1d2c8'),s*3.05,.12,-9);for(let z=8;z>-25;z-=8)addBox(group,.48,3.35,.48,material('#d2ddd1'),s*5,1.7,z,false)}
