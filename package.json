@@ -1,0 +1,1 @@
+{"name":"microverse-the-hollow","private":true,"type":"module","scripts":{"test:e2e":"playwright test"},"devDependencies":{"@playwright/test":"^1.58.2","pngjs":"^7.0.0"}}
