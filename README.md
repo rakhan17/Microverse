@@ -13,7 +13,10 @@ His father is away. The doors to the rest of the estate are waiting. Somewhere i
 - Early estate grounds: damaged approach, abandoned sedan, disturbed earth mounds, dead trees, broken garden wall, old fountain, weeds, rubble, and a decaying bench.
 - First-person movement, mouse look, sprint, pointer lock, and an interaction prompt.
 - Doors to future rooms are placed around the main hall and can be opened and closed.
-- Five inventory slots, pickup interactions, flashlight, settings for sensitivity/FOV/ambience, and credits.\n- Three physical investigation clues, a journal, and an evidence-gated chapter exit requiring the mansion key.\n- A basic pursuer AI that activates after the second clue and chases the player.\n- Local browser checkpoint save/load for position, inventory, and collected clues, with periodic autosaves.
+- Five inventory slots, pickup interactions, flashlight, settings for sensitivity/FOV/ambience, and credits.
+- Three physical investigation clues, a journal, and an evidence-gated chapter exit requiring the mansion key.
+- A basic pursuer AI that activates after the second clue and chases the player.
+- Local browser checkpoint save/load for position, inventory, and collected clues, with periodic autosaves.
 - A scripted threat sequence and death/retry screen.
 
 ## Controls
