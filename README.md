@@ -1,29 +1,36 @@
 # MICROVERSE COMPLETE
 ### THE HOLLOW — First-person survival horror
 
-**THE HOLLOW** is the first horror experience inside MICROVERSE COMPLETE. Explore a decaying, isolated house surrounded by a black forest. The current build focuses on one room and its environmental storytelling: damaged wallpaper, damp stains, scattered books, old furniture, a cold fireplace, unsettling portraits, a covered statue, and interactive doors.
+THE HOLLOW is the first survival-horror experience inside MICROVERSE COMPLETE. Explore a decaying house at the edge of a forest, find useful items, and try to leave before the thing outside finds you.
 
-![Status](https://img.shields.io/badge/status-prototype-8d1717) ![Platform](https://img.shields.io/badge/platform-web-black) ![Rendering](https://img.shields.io/badge/rendering-Three.js-white)
+## Current experience
 
-## Experience
-
-- A dark forest title screen with lightning and a distant axe-bearing silhouette.
-- A first-person exploration space with atmospheric fog, shadows, practical lights, and a handheld flashlight.
-- Procedural surface textures for worn wallpaper, cracks, aged wood, grime, and stylized blood stains.
-- Three interactive doors with opening and closing animation.
-- Environmental scares: a portrait whose eyes follow the player, a subtly moving statue, flickering lights, and intermittent lightning.
-- A low synthesized ambient drone.
-
-The horror props are fictional environmental set dressing. The current prototype does not contain graphic body-destruction scenes, combat, or a functioning weapon system.
+- Black forest title screen with intermittent lightning. The distant figure is only revealed during lightning flashes and changes sides between appearances.
+- First-person exploration in one abandoned house, with a real exit opening, window openings, damp wall detailing, old furniture, books, a fireplace, a portrait, and a moving statue.
+- Wider flashlight cone and atmospheric fog, shadowing, and flickering practical lights.
+- Aim-based interaction: the selected object receives a gold outline and a nearby action label. Press **E** to interact.
+- Five-slot inventory bar with pickup items.
+- Doors can be opened and closed. The exit triggers a cinematic jumpscare.
+- Settings for mouse sensitivity, field of view, and ambience volume.
+- A cinematic credits view.
 
 ## Controls
 
 - **W / A / S / D** — Move
 - **Mouse** — Look around
 - **Shift** — Run
-- **E** — Open or close a nearby door
+- **E** — Interact with the highlighted object
+- **1–5** — Select inventory slot
 - **Esc** — Release pointer lock
 - Click the game view to capture the mouse again.
+
+## External assets and credits
+
+- [Poly Haven](https://polyhaven.com) — CC0 3D asset library and public API. The prototype attempts to load the Arm Chair 01 and Barrel 01 models through the Poly Haven files API. Procedural fallbacks remain in place if a remote asset cannot be loaded.
+- [Cesium Man](https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/CesiumMan) by Cesium — CC BY 4.0, used as the external rigged character model for the jumpscare when the remote GLB is available.
+- [Three.js](https://threejs.org) — MIT License.
+
+The in-game credits view includes the asset-source acknowledgements. Please retain the original model attribution when redistributing this project.
 
 ## Run and deploy
 
@@ -35,18 +42,11 @@ This is a static web application. Serve the repository root or deploy it to Verc
 - Output directory: **.**
 - Install command: leave empty
 
-Three.js is loaded from jsDelivr and fonts from Google Fonts, so an internet connection is required.
+The app loads Three.js, GLTFLoader, and remote model assets over HTTPS, so an internet connection is required.
 
-## Current scope and known limitations
+## Current scope and limitations
 
-This is an early playable visual prototype, not a finished horror game. The focus is the first house environment; additional rooms, progression, objectives, enemy AI, save/load, spatial audio, mobile controls, and a full collision/physics system are not implemented yet. Geometry and surface maps are generated procedurally in the browser rather than sourced from scanned or photogrammetric assets. Visual quality and performance still need in-browser testing across devices.
-
-## Technology
-
-- Three.js for real-time 3D rendering.
-- Vanilla HTML, CSS, and JavaScript.
-- Procedural CanvasTextures and modular geometry.
-- WebGL shadows, fog, tone mapping, and animated lighting.
+This is an early playable prototype focused on the first house. The character asset and Poly Haven models load remotely and may fall back if a provider is unavailable or a model format cannot be resolved. The player has basic movement boundaries rather than a complete physics/collision system. The jumpscare is a scripted sequence, not a full combat or damage simulation. Additional rooms, puzzles, save/load, and mobile controls are not implemented yet.
 
 ---
 **MICROVERSE COMPLETE** is the project. **THE HOLLOW** is its first survival-horror experience.
