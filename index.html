@@ -53,7 +53,7 @@ const palettes={
 };
 let group=new THREE.Group();scene.add(group);let colliders=[];
 function material(color,rough=.86,metal=0){return mats(color,rough,metal)}
-function addBox(parent,w,h,d,mat,x,y,z,cast=false){const mesh=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);mesh.position.set(x,y,z);mesh.castShadow=cast;mesh.receiveShadow=true;parent.add(mesh);return mesh}
+function addBox(parent,w,h,d,mat,x,y,z,cast=true){const mesh=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);mesh.position.set(x,y,z);mesh.castShadow=cast;mesh.receiveShadow=true;parent.add(mesh);return mesh}
 function addLight(x,y,z,color,intensity,range){const lamp=addBox(group,1.45,.045,.27,material('#f3f0df',.38),x,y,z);const point=new THREE.PointLight(color,intensity,range,1.8);point.position.set(x,y-.15,z);group.add(point)}
 function addBaseboard(side,zStart,zEnd,mat){const length=zStart-zEnd;addBox(group,.09,.13,length,mat,side*5.92,.12,(zStart+zEnd)/2)}
 function clearWorld(){while(group.children.length){const o=group.children.pop();if(o.geometry)o.geometry.dispose();if(o.material){if(Array.isArray(o.material))o.material.forEach(m=>m.dispose());else o.material.dispose()}}colliders=[]}
