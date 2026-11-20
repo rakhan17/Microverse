@@ -13,7 +13,9 @@ His father is away. The doors to the rest of the estate are waiting. Somewhere i
 - Early estate grounds: damaged approach, abandoned sedan, disturbed earth mounds, dead trees, broken garden wall, old fountain, weeds, rubble, and a decaying bench.
 - First-person movement, mouse look, sprint, pointer lock, and an interaction prompt.
 - Doors to future rooms are placed around the main hall and can be opened and closed.
-- Five inventory slots, pickup interactions, flashlight, settings for sensitivity/FOV/ambience, and credits.
+- Five inventory slots with a flashlight, exit key, rechargeable batteries, first-aid kits, and defensive flares.
+- Survival resources: health and flashlight charge. The flashlight drains while active; batteries replenish it, first-aid restores health, and flares briefly repel the pursuer.
+- Item use controls: F toggles the flashlight; R uses the selected consumable.
 - Three physical investigation clues, a journal, and an evidence-gated chapter exit requiring the mansion key.
 - A basic pursuer AI that activates after the second clue and chases the player.
 - Local browser checkpoint save/load for position, inventory, and collected clues, with periodic autosaves.
@@ -28,6 +30,8 @@ His father is away. The doors to the rest of the estate are waiting. Somewhere i
 | Shift | Run |
 | E | Interact with the highlighted object or door |
 | 1–5 | Select inventory slot |
+| F | Toggle flashlight (requires the flashlight item) |
+| R | Use selected battery, first-aid kit, or flare |
 | Esc | Open / close pause menu |
 | J | Open / close investigation journal |
 | Click game view | Capture mouse again |
@@ -70,7 +74,7 @@ npm run test:e2e
 
 ## Known limitations
 
-This is an expanding prototype, not a finished commercial horror game. The current build has a basic pursuer rather than a complete enemy AI, a short three-clue investigation rather than a branching mystery, and local browser checkpoints rather than cross-device cloud saves. It still has no combat system, full collision/physics simulation, or finished connected rooms. The prologue is a stylized 3D storyboard, not a fully motion-captured short film. Remote assets can fail and fall back to procedural geometry. Browser runtime and visual testing are still required on the deployed site.
+This is an expanding prototype, not a finished commercial horror game. The current build has a single pursuer with basic chase and attack logic rather than a complete enemy AI, a short three-clue investigation rather than a branching mystery, and local browser checkpoints rather than cross-device cloud saves. It still has no combat system, full collision/physics simulation, or finished connected rooms. The prologue is a stylized 3D storyboard, not a fully motion-captured short film. Remote assets can fail and fall back to procedural geometry. Browser runtime and visual testing are still required on the deployed site.
 
 ---
 **MICROVERSE COMPLETE** is the project. **THE HOLLOW** is its first survival-horror chapter.
