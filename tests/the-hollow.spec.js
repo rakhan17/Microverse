@@ -90,6 +90,21 @@ test('prologue advances only on Enter and keeps each animated tableau isolated',
  await expect(page.locator('#prologue-chapter')).toHaveText('AN EMPTY ROOM');
  await expect.poll(()=>page.evaluate(()=>window.__THE_HOLLOW_TEST__.visualState().visiblePrologueScenes)).toBe(1);
 });
+test('farewell character walk drives real arm and leg joints',async({page})=>{
+ await page.goto('/?e2e=1');
+ await page.getByRole('button',{name:'MULAI PERMAINAN'}).click();
+ for(let i=0;i<4;i++)await page.keyboard.press('Enter');
+ await expect(page.locator('#prologue-chapter')).toHaveText('FAREWELL');
+ await page.waitForTimeout(650);
+ const pose=await page.evaluate(()=>window.__THE_HOLLOW_TEST__.visualState().departingRigPose);
+ expect(pose).not.toBeNull();
+ expect(Math.abs(pose.leftArm)).toBeGreaterThan(.1);
+ expect(Math.abs(pose.rightArm)).toBeGreaterThan(.1);
+ expect(Math.abs(pose.leftLeg)).toBeGreaterThan(.1);
+ expect(Math.abs(pose.rightLeg)).toBeGreaterThan(.1);
+ const integrity=await page.evaluate(()=>window.__THE_HOLLOW_TEST__.visualState().articulatedRigIntegrityCount);
+ expect(integrity).toBeGreaterThan(0);
+});
 test('credits estate contains the mansion, forest, front yard and single road set',async({page})=>{
  await page.goto('/?e2e=1');
  await page.getByRole('button',{name:'KREDIT'}).click();
