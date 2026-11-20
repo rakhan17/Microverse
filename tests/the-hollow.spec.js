@@ -90,6 +90,28 @@ test('prologue advances only on Enter and keeps each animated tableau isolated',
  await expect(page.locator('#prologue-chapter')).toHaveText('AN EMPTY ROOM');
  await expect.poll(()=>page.evaluate(()=>window.__THE_HOLLOW_TEST__.visualState().visiblePrologueScenes)).toBe(1);
 });
+test('all eight prologue scenes remain isolated, rendered and free of runtime errors',async({page})=>{
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto('/?e2e=1');
+ await page.getByRole('button',{name:'MULAI PERMAINAN'}).click();
+ const titles=['THE LAST GOODBYE','MONTHS OF SILENCE','AN EMPTY ROOM','THE BOY LEFT BEHIND','TWO YEARS LATER','A NORMAL NIGHT','THE DOORWAY','FORTY-EIGHT HOURS'];
+ for(let i=0;i<titles.length;i++){
+  await expect(page.locator('#prologue-chapter')).toHaveText(titles[i]);
+  await expect.poll(()=>page.evaluate(()=>window.__THE_HOLLOW_TEST__.visualState().visiblePrologueScenes)).toBe(1);
+  await page.waitForTimeout(220);
+  const png=PNG.sync.read(await page.locator('canvas').screenshot());
+  const colors=new Set();let lit=0;
+  for(let y=0;y<png.height;y+=12)for(let x=0;x<png.width;x+=12){
+   const k=(y*png.width+x)*4,r=png.data[k],g=png.data[k+1],b=png.data[k+2];
+   colors.add((r>>4)+','+(g>>4)+','+(b>>4));
+   if(r+g+b>45)lit++;
+  }
+  expect(colors.size, titles[i]+' should have visible 3D detail').toBeGreaterThan(12);
+  expect(lit, titles[i]+' should not render as a black scene').toBeGreaterThan(35);
+  if(i<titles.length-1)await page.keyboard.press('Enter');
+ }
+ expect(errors).toEqual([]);
+});
 test('farewell character walk drives real arm and leg joints',async({page})=>{
  await page.goto('/?e2e=1');
  await page.getByRole('button',{name:'MULAI PERMAINAN'}).click();
