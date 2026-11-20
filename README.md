@@ -11,9 +11,18 @@ His father is away. The doors to the rest of the estate are waiting. Somewhere i
 - Eight-part cinematic prologue introducing the family's loss, the mother's decline and death, Libert's grief, his father's departure, the bedroom attack, and Libert waking in the grand hall.
 - An enlarged mansion reception hall with monumental columns, a multi-tier chandelier, velvet salon seating, a large carpet, portrait gallery, decorative stair flights, fireplace, statue, and scattered debris.
 - Early estate grounds: damaged approach, abandoned sedan, disturbed earth mounds, dead trees, broken garden wall, old fountain, weeds, rubble, and a decaying bench.
-- First-person movement, mouse look, sprint, pointer lock, and an interaction prompt.
-- Doors to future rooms are placed around the main hall and can be opened and closed.
-- Five inventory slots, pickup interactions, flashlight, settings for sensitivity/FOV/ambience, and credits.
+- First-person movement, mouse look, sprint, crouch-based stealth, pointer lock, and an interaction prompt. Held movement/stealth keys are cleared when the browser window loses focus.
+- Two side wings connect to the main hall: an accessible bedroom and a locked evidence-storage room. Closed doors block movement; the storage door requires the brass key.
+- The bedroom wing now has two physical hiding places: a wardrobe and the space beneath the bed. Press E to enter or leave; movement and the flashlight are disabled while hidden, and Marlow can still discover and attack Libert if he gets close.
+- Five inventory slots with a flashlight, exit key, rechargeable batteries, first-aid kits, and defensive flares.
+- Two connected side wings: an accessible bedroom and a key-locked evidence-storage room, with distinct furniture, shelving, and lighting.
+- Survival resources: health and flashlight charge. The flashlight drains while active; batteries replenish it, first-aid restores health, and flares briefly repel the pursuer. Crouching slows Libert and reduces his visibility and footstep noise; sprinting is faster but carries much farther.
+- Item use controls: F toggles the flashlight; R uses the selected consumable.
+- Three physical investigation clues, a journal, and an evidence-gated chapter exit requiring the mansion key.
+- A three-wheel combination lock in the evidence room. The digits are discovered across the three clues; entering 241 opens a hidden compartment containing a new story revelation.
+- Puzzle digits, archive state, and the secret discovery persist in browser checkpoints.
+- Marlow's patrol, chase, search, and investigation behaviours: he reacts to proximity, flashlight use, sprinting, and short-lived footstep noise positions. After losing Libert, he sweeps several nearby positions around the last known location; if he sees Libert enter a hiding place, he approaches that position to inspect it.
+- Local browser checkpoint save/load for position, inventory, and collected clues, with periodic autosaves.
 - A scripted threat sequence and death/retry screen.
 
 ## Controls
@@ -22,16 +31,20 @@ His father is away. The doors to the rest of the estate are waiting. Somewhere i
 |---|---|
 | W / A / S / D | Move |
 | Mouse | Look around |
-| Shift | Run |
+| Shift | Run (uses stamina, louder and easier to detect) |
+| C / Ctrl (hold) | Crouch (slower and quieter; held keys reset on window blur) |
 | E | Interact with the highlighted object or door |
 | 1–5 | Select inventory slot |
+| F | Toggle flashlight (requires the flashlight item) |
+| R | Use selected battery, first-aid kit, or flare |
 | Esc | Open / close pause menu |
-| J | Open journal (planned) |
+| J | Open / close investigation journal |
+| E while hidden | Leave the wardrobe or crawl out from under the bed |
 | Click game view | Capture mouse again |
 
 ## Story direction
 
-The first chapter is deliberately focused on the mansion's grand hall. Doors are visible as future destinations, but the rooms behind them are not yet complete. The investigation, clues, enemy AI, combat, save system, and additional chapters remain future development.
+The first playable investigation loop now asks Libert to find three pieces of evidence, connect the name Marlow to the attack, recover the mansion key, and reach the exit. A simple pursuer activates after the second clue. The journal records discovered evidence and browser checkpoints preserve progress. The grand hall, bedroom wing, evidence-storage wing, and estate grounds form the current playable space; full line-of-sight occlusion, room-aware sound propagation, combat, branching mysteries, additional puzzles, and additional chapters are still in development.
 
 The prologue uses stylized 3D tableaux and camera movement rather than motion-captured cinematic performances. The mother's death is treated as a serious family tragedy and is not shown graphically.
 
@@ -53,9 +66,17 @@ Deploy the repository root to Vercel with:
 
 The project loads Three.js and selected models over HTTPS. The Poly Haven proxy at `/api/polyhaven` requires a serverless deployment such as Vercel; it will not work from a plain static file opened directly from disk.
 
+## 3D rendering and visual QA
+
+Visual quality is a release priority for THE HOLLOW. The renderer uses antialiasing, ACES filmic tone mapping, sRGB output, a capped device-pixel ratio, GPU-aware anisotropic filtering, and a higher-resolution directional shadow map. Browser resizing updates the renderer and camera projection; WebGL context loss/restoration is surfaced to the player.
+
+Player movement now uses static collision bounds derived from the actual rendered mansion wall meshes after the mansion's world transform is applied. This is important because the house is scaled after its procedural geometry is built; computing bounds before that transform would leave collision volumes at half the visible size. The same geometry now supplies collision for major furniture and storage props as well: the hall desk, main bookshelf, cabinet, bedroom wardrobe, evidence-room shelf supports/boards, and storage crates. The bed remains deliberately excluded so the under-bed hiding route is not accidentally sealed. Movement resolves the horizontal axes separately so the player can slide along a wall instead of getting stuck against a corner. Closed doors retain dynamic collision checks based on the actual leaf dimensions after the mansion scale is applied, rather than a broad invisible rectangle. A focused Playwright regression verifies that the leaf blocks the player while nearby space outside its physical width remains traversable. Playwright also checks the side wall and main bookshelf boundary.
+
+These are safeguards and regression coverage, not proof that every scene is glitch-free. The current world still mixes procedural geometry with optional remote GLTF assets, and remote assets can fall back to simpler geometry. Before merge, the deployed build must receive a visual pass on desktop and smaller screens: inspect wall/floor seams, z-fighting, shadow acne, object intersections, camera clipping, doorway transitions, asset loading failures, and sustained frame pacing.
+
 ## Browser regression tests
 
-The repository includes Playwright smoke tests for the rendered 3D canvas, main-menu settings, cinematic credits, prologue skipping, and the ESC pause flow. GitHub Actions runs these tests on pushes and pull requests. A passing CI run verifies the tested browser paths, not a complete commercial release or every possible GPU/browser combination.
+The repository includes Playwright smoke tests for the rendered 3D canvas, main-menu settings, cinematic credits, prologue skipping, the ESC pause flow, survival HUD/stamina, and a player-wall collision regression check. GitHub Actions runs these tests on pushes and pull requests. A passing CI run verifies the tested browser paths, not a complete commercial release or every possible GPU/browser combination.
 
 Run locally with:
 
@@ -67,7 +88,7 @@ npm run test:e2e
 
 ## Known limitations
 
-This is an expanding prototype, not a finished commercial horror game. The current build has no complete enemy AI, clue/puzzle chain, combat system, full collision/physics simulation, save/load, or finished connected rooms. The prologue is a stylized 3D storyboard, not a fully motion-captured short film. Remote assets can fail and fall back to procedural geometry. Browser runtime and visual testing are still required on the deployed site.
+This is an expanding prototype, not a finished commercial horror game. The current build has a single pursuer with patrol, chase, and search states, plus two hiding spots that use proximity-based discovery rather than full line-of-sight or room-aware sound simulation, a short three-clue investigation with one fixed-code secret rather than a branching mystery, and local browser checkpoints rather than cross-device cloud saves. It still has no combat system or full physics simulation. Collision currently covers transformed mansion walls, selected major furniture/storage props, and closed doors; smaller decorative props and several interactive objects are not solid, so this is not yet a complete physics/collision pass. The two side wings are early playable spaces rather than fully developed room sequences. The prologue is a stylized 3D storyboard, not a fully motion-captured short film. Remote assets can fail and fall back to procedural geometry. Browser runtime and visual testing are still required on the deployed site.
 
 ---
 **MICROVERSE COMPLETE** is the project. **THE HOLLOW** is its first survival-horror chapter.
