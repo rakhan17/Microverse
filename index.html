@@ -113,6 +113,7 @@ const eastWing=new THREE.Group();eastWing.position.set(8.5,0,-1);house.add(eastW
 // Storage shelves, crates and a second, colder pool of light.
 for(const x of [-1.55,1.55]){block(eastWing,.16,2.6,.5,trim,x,1.25,-2.7);for(const y of [.35,1.05,1.75,2.45])block(eastWing,1.25,.09,.5,wood,x, y,-2.7);for(let n=0;n<3;n++)block(eastWing,.22,.48,.3,material(['#47362a','#36352f','#59463a'][n]),x-.38+n*.36,.62,-2.68)}
 for(const [x,z] of [[-1.3,.65],[1.2,1.25]]){block(eastWing,.95,.85,.9,wood,x,.42,z);block(eastWing,.75,.08,.7,trim,x,.89,z)}const storageLight=new THREE.PointLight(0x9bb0b0,.12,5,2);storageLight.position.set(0,2.6,0);eastWing.add(storageLight);
+buildEvidencePuzzle(eastWing);
 }
 const bulbs=[],eyeTargets=[];let animatedStatue=null;makeRoom();
 
@@ -183,14 +184,17 @@ const journalEntries=[],clueObjects={};
 function buildInvestigationClues(){for(const c of clueDefinitions){const g=new THREE.Group();g.position.set(...c.pos);house.add(g);clueObjects[c.id]=g;const base=block(g,.48,.055,.34,material('#30251d'),0,0,0,false);base.rotation.y=.12;if(c.id==='photo'){block(g,.36,.025,.27,material('#9b8a69'),0,.045,0,false);block(g,.3,.008,.21,material('#171512'),0,.06,0,false)}else{block(g,.36,.025,.26,material(c.id==='letter'?'#b9a98b':'#493a2a'),0,.045,0,false);for(let i=0;i<3;i++)block(g,.25,.004,.006,material('#655642'),0,.061,-.07+i*.065,false)}const glow=new THREE.PointLight(0x9c7540,.32,2);glow.position.y=.35;g.add(glow);addInteractable(g,'clue','PERIKSA: '+c.title,{clue:c});}}
 
 buildInvestigationClues();
-/* Evidence-room combination lock: clues reveal 2-4-1 in order. */
+/* Evidence-room combination lock is built inside makeRoom after eastWing exists. */
 const codeDisplays=[];
+let archive=null;
 function paintCodeDigit(index){const display=codeDisplays[index];if(!display)return;const ctx=display.canvas.getContext('2d');ctx.clearRect(0,0,128,160);ctx.fillStyle='#090908';ctx.fillRect(0,0,128,160);ctx.strokeStyle='#a98b54';ctx.lineWidth=5;ctx.strokeRect(5,5,118,150);ctx.fillStyle='#e2d0a8';ctx.font='bold 92px Cinzel,serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(String(codeDigits[index]),64,80);display.texture.needsUpdate=true;display.face.userData.label='PUTAR RODA '+(index+1)+' · '+codeDigits[index];}
-const lockPanel=block(eastWing,2.15,1.25,.16,material('#171512',.7,.45),0,1.55,-3.34,false);
-for(let i=0;i<3;i++){const dial=new THREE.Group();dial.position.set((i-1)*.62,1.55,-3.22);eastWing.add(dial);block(dial,.48,.68,.12,material('#51402b',.45,.65),0,0,0,false);const canvas=document.createElement('canvas');canvas.width=128;canvas.height=160;const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;const face=mesh(dial,new THREE.PlaneGeometry(.34,.48),new THREE.MeshBasicMaterial({map:texture}),[0,0,.066],false);codeDisplays.push({canvas,texture,face});addInteractable(face,'dial','PUTAR RODA '+(i+1),{dialIndex:i});paintCodeDigit(i);}
-const archive=new THREE.Group();archive.position.set(0,.42,-2.45);eastWing.add(archive);block(archive,1.05,.78,.28,material('#211a13'),0,.34,0);block(archive,.98,.08,.32,gold,0,.76,.02);block(archive,.12,.45,.04,rust,0,.35,.17);const archiveGlow=new THREE.PointLight(0xc59a55,.45,2);archiveGlow.position.set(0,.8,.3);archive.add(archiveGlow);archive.visible=false;addInteractable(archive,'secret','PERIKSA KOMPARTEMEN TERSEMBUNYI',{});
-function updateArchiveState(){archive.visible=archiveUnlocked&&!secretArchiveFound;if(!interactables.includes(archive))interactables.push(archive);}
-
+function buildEvidencePuzzle(room){
+ const lockPanel=block(room,2.15,1.25,.16,material('#171512',.7,.45),0,1.55,-3.34,false);
+ for(let i=0;i<3;i++){const dial=new THREE.Group();dial.position.set((i-1)*.62,1.55,-3.22);room.add(dial);block(dial,.48,.68,.12,material('#51402b',.45,.65),0,0,0,false);const canvas=document.createElement('canvas');canvas.width=128;canvas.height=160;const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;const face=mesh(dial,new THREE.PlaneGeometry(.34,.48),new THREE.MeshBasicMaterial({map:texture}),[0,0,.066],false);codeDisplays.push({canvas,texture,face});addInteractable(face,'dial','PUTAR RODA '+(i+1),{dialIndex:i});paintCodeDigit(i);}
+ archive=new THREE.Group();archive.position.set(0,.42,-2.45);room.add(archive);block(archive,1.05,.78,.28,material('#211a13'),0,.34,0);block(archive,.98,.08,.32,gold,0,.76,.02);block(archive,.12,.45,.04,rust,0,.35,.17);const archiveGlow=new THREE.PointLight(0xc59a55,.45,2);archiveGlow.position.set(0,.8,.3);archive.add(archiveGlow);archive.visible=false;addInteractable(archive,'secret','PERIKSA KOMPARTEMEN TERSEMBUNYI',{});
+ updateArchiveState();
+}
+function updateArchiveState(){if(!archive)return;archive.visible=archiveUnlocked&&!secretArchiveFound;if(!interactables.includes(archive))interactables.push(archive);}
 function renderJournal(){const list=$('#journalList');list.innerHTML='';if(!journalEntries.length){list.innerHTML='<p class="journal-empty">Belum ada petunjuk. Periksa benda-benda yang tampak mencurigakan.</p>';return}for(const entry of journalEntries){const article=document.createElement('article');article.className='journal-entry';const h=document.createElement('h3');h.textContent=entry.title;const p=document.createElement('p');p.textContent=entry.body;article.append(h,p);list.append(article)}}
 function openJournal(){if(state!=='game'&&state!=='paused')return;$('#journal').classList.add('show');renderJournal();if(state==='game'){state='journal';document.exitPointerLock?.();locked=false;}}
 function closeJournal(){if(!$('#journal').classList.contains('show'))return;$('#journal').classList.remove('show');if(state==='journal')state='game';}
