@@ -14,6 +14,7 @@ His father is away. The doors to the rest of the estate are waiting. Somewhere i
 - First-person movement, mouse look, sprint, pointer lock, and an interaction prompt.
 - Doors to future rooms are placed around the main hall and can be opened and closed.
 - Five inventory slots with a flashlight, exit key, rechargeable batteries, first-aid kits, and defensive flares.
+- Two connected side wings: an accessible bedroom and a key-locked evidence-storage room, with distinct furniture, shelving, and lighting.
 - Survival resources: health and flashlight charge. The flashlight drains while active; batteries replenish it, first-aid restores health, and flares briefly repel the pursuer.
 - Item use controls: F toggles the flashlight; R uses the selected consumable.
 - Three physical investigation clues, a journal, and an evidence-gated chapter exit requiring the mansion key.
