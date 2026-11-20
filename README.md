@@ -21,7 +21,7 @@ His father is away. The doors to the rest of the estate are waiting. Somewhere i
 - Three physical investigation clues, a journal, and an evidence-gated chapter exit requiring the mansion key.
 - A three-wheel combination lock in the evidence room. The digits are discovered across the three clues; entering 241 opens a hidden compartment containing a new story revelation.
 - Puzzle digits, archive state, and the secret discovery persist in browser checkpoints.
-- Marlow's three-state pursuer AI: patrols the hall, chases when Libert is nearby, illuminated, or sprinting, then searches the last known position after losing him.
+- Marlow's patrol, chase, search, and investigation behaviours: he reacts to proximity, flashlight use, sprinting, and short-lived footstep noise positions. If he sees Libert enter a hiding place, he approaches the last known hiding position to inspect it.
 - Local browser checkpoint save/load for position, inventory, and collected clues, with periodic autosaves.
 - A scripted threat sequence and death/retry screen.
 
@@ -43,7 +43,7 @@ His father is away. The doors to the rest of the estate are waiting. Somewhere i
 
 ## Story direction
 
-The first playable investigation loop now asks Libert to find three pieces of evidence, connect the name Marlow to the attack, recover the mansion key, and reach the exit. A simple pursuer activates after the second clue. The journal records discovered evidence and browser checkpoints preserve progress. The grand hall, bedroom wing, evidence-storage wing, and estate grounds form the current playable space; line-of-sight occlusion, sound propagation through rooms, combat, branching mysteries, additional puzzles, and additional chapters are still in development.
+The first playable investigation loop now asks Libert to find three pieces of evidence, connect the name Marlow to the attack, recover the mansion key, and reach the exit. A simple pursuer activates after the second clue. The journal records discovered evidence and browser checkpoints preserve progress. The grand hall, bedroom wing, evidence-storage wing, and estate grounds form the current playable space; full line-of-sight occlusion, room-aware sound propagation, combat, branching mysteries, additional puzzles, and additional chapters are still in development.
 
 The prologue uses stylized 3D tableaux and camera movement rather than motion-captured cinematic performances. The mother's death is treated as a serious family tragedy and is not shown graphically.
 
