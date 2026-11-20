@@ -21,7 +21,7 @@ His father is away. The doors to the rest of the estate are waiting. Somewhere i
 - Three physical investigation clues, a journal, and an evidence-gated chapter exit requiring the mansion key.
 - A three-wheel combination lock in the evidence room. The digits are discovered across the three clues; entering 241 opens a hidden compartment containing a new story revelation.
 - Puzzle digits, archive state, and the secret discovery persist in browser checkpoints.
-- Marlow's patrol, chase, search, and investigation behaviours: he reacts to proximity, flashlight use, sprinting, and short-lived footstep noise positions. If he sees Libert enter a hiding place, he approaches the last known hiding position to inspect it.
+- Marlow's patrol, chase, search, and investigation behaviours: he reacts to proximity, flashlight use, sprinting, and short-lived footstep noise positions. After losing Libert, he sweeps several nearby positions around the last known location; if he sees Libert enter a hiding place, he approaches that position to inspect it.
 - Local browser checkpoint save/load for position, inventory, and collected clues, with periodic autosaves.
 - A scripted threat sequence and death/retry screen.
 
