@@ -10,3 +10,20 @@ test('journal opens with J and checkpoint survives a reload',async({page})=>{con
 test('journal closes with ESC without opening the pause screen',async({page})=>{await page.goto('/');await page.getByRole('button',{name:'MULAI PERMAINAN'}).click();await page.getByRole('button',{name:'LEWATI PROLOG'}).click();await page.evaluate(()=>document.dispatchEvent(new KeyboardEvent('keydown',{key:'j',bubbles:true,cancelable:true})));await expect(page.locator('#journal')).toHaveClass(/show/);await page.evaluate(()=>document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true,cancelable:true})));await expect(page.locator('#journal')).not.toHaveClass(/show/);await expect(page.locator('#pause')).not.toHaveClass(/show/);});
 test('survival HUD exposes health and flashlight resources with usable-item controls',async({page})=>{const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto('/');await page.getByRole('button',{name:'MULAI PERMAINAN'}).click();await page.getByRole('button',{name:'LEWATI PROLOG'}).click();await expect(page.locator('#vitals')).toBeVisible();await expect(page.locator('#healthValue')).toHaveText('100');await expect(page.locator('#batteryValue')).toHaveText('100');await expect(page.locator('#staminaValue')).toHaveText('100');await expect(page.locator('#staminaFill')).toHaveCSS('width',/./);await expect(page.locator('#inventory .slot')).toHaveCount(5);await expect(page.locator('#stanceLabel')).toHaveText('BERDIRI');await page.keyboard.down('c');await expect(page.locator('#stanceLabel')).toHaveText('MERUNDUK');await page.evaluate(()=>window.dispatchEvent(new Event('blur')));await expect(page.locator('#stanceLabel')).toHaveText('BERDIRI');await page.keyboard.up('c');await expect(page.locator('#stanceLabel')).toHaveText('BERDIRI');await page.evaluate(()=>document.dispatchEvent(new KeyboardEvent('keydown',{key:'f',bubbles:true,cancelable:true})));await expect(page.locator('#toast')).toContainText('CARI SENTER TERLEBIH DAHULU');await page.evaluate(()=>document.dispatchEvent(new KeyboardEvent('keydown',{key:'r',bubbles:true,cancelable:true})));await expect(page.locator('#toast')).toContainText('PILIH ITEM TERLEBIH DAHULU');expect(errors).toEqual([]);});
 test('sprinting consumes stamina and stamina recovers after resting',async({page})=>{const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto('/');await page.getByRole('button',{name:'MULAI PERMAINAN'}).click();await page.getByRole('button',{name:'LEWATI PROLOG'}).click();await expect(page.locator('#staminaValue')).toHaveText('100');await page.keyboard.down('w');await page.keyboard.down('Shift');await page.waitForTimeout(1400);await page.keyboard.up('Shift');await page.keyboard.up('w');const drained=Number(await page.locator('#staminaValue').textContent());expect(drained).toBeLessThan(100);await page.waitForTimeout(1900);const recovered=Number(await page.locator('#staminaValue').textContent());expect(recovered).toBeGreaterThan(drained);expect(errors).toEqual([]);});
+
+test('player collision follows the rendered mansion side walls',async({page})=>{
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto('/?e2e=1');
+ await page.getByRole('button',{name:'MULAI PERMAINAN'}).click();
+ await page.getByRole('button',{name:'LEWATI PROLOG'}).click();
+ await page.waitForFunction(()=>Boolean(window.__THE_HOLLOW_TEST__));
+ await page.evaluate(()=>window.__THE_HOLLOW_TEST__.setPlayerPosition(10.8,6));
+ await page.keyboard.down('d');
+ await page.waitForTimeout(1800);
+ await page.keyboard.up('d');
+ const position=await page.evaluate(()=>window.__THE_HOLLOW_TEST__.playerPosition());
+ expect(position.x).toBeGreaterThan(10.8);
+ expect(position.x).toBeLessThanOrEqual(11.5);
+ expect(position.z).toBeCloseTo(6,1);
+ expect(errors).toEqual([]);
+});
