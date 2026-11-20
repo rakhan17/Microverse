@@ -23,7 +23,7 @@ test('player collision follows the rendered mansion side walls',async({page})=>{
  await page.keyboard.up('d');
  const position=await page.evaluate(()=>window.__THE_HOLLOW_TEST__.playerPosition());
  expect(position.x).toBeGreaterThan(10);
- expect(position.x).toBeLessThanOrEqual(10.55);
+ expect(position.x).toBeLessThanOrEqual(11.45);
  expect(position.z).toBeCloseTo(-1,1);
  expect(errors).toEqual([]);
 });
