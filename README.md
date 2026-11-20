@@ -12,7 +12,7 @@ His father is away. The doors to the rest of the estate are waiting. Somewhere i
 - An enlarged mansion reception hall with monumental columns, a multi-tier chandelier, velvet salon seating, a large carpet, portrait gallery, decorative stair flights, fireplace, statue, and scattered debris.
 - Early estate grounds: damaged approach, abandoned sedan, disturbed earth mounds, dead trees, broken garden wall, old fountain, weeds, rubble, and a decaying bench.
 - First-person movement, mouse look, sprint, pointer lock, and an interaction prompt.
-- Doors to future rooms are placed around the main hall and can be opened and closed.
+- Two side wings connect to the main hall: an accessible bedroom and a locked evidence-storage room. Closed doors block movement; the storage door requires the brass key.
 - Five inventory slots with a flashlight, exit key, rechargeable batteries, first-aid kits, and defensive flares.
 - Two connected side wings: an accessible bedroom and a key-locked evidence-storage room, with distinct furniture, shelving, and lighting.
 - Survival resources: health and flashlight charge. The flashlight drains while active; batteries replenish it, first-aid restores health, and flares briefly repel the pursuer.
@@ -39,7 +39,7 @@ His father is away. The doors to the rest of the estate are waiting. Somewhere i
 
 ## Story direction
 
-The first playable investigation loop now asks Libert to find three pieces of evidence, connect the name Marlow to the attack, recover the mansion key, and reach the exit. A simple pursuer activates after the second clue. The journal records discovered evidence and browser checkpoints preserve progress. The grand hall and estate remain the main playable space; connected rooms, deeper enemy behaviours, combat, and additional chapters are still in development.
+The first playable investigation loop now asks Libert to find three pieces of evidence, connect the name Marlow to the attack, recover the mansion key, and reach the exit. A simple pursuer activates after the second clue. The journal records discovered evidence and browser checkpoints preserve progress. The grand hall, bedroom wing, evidence-storage wing, and estate grounds form the current playable space; deeper enemy behaviours, combat, expanded puzzles, and additional chapters are still in development.
 
 The prologue uses stylized 3D tableaux and camera movement rather than motion-captured cinematic performances. The mother's death is treated as a serious family tragedy and is not shown graphically.
 
@@ -75,7 +75,7 @@ npm run test:e2e
 
 ## Known limitations
 
-This is an expanding prototype, not a finished commercial horror game. The current build has a single pursuer with basic chase and attack logic rather than a complete enemy AI, a short three-clue investigation rather than a branching mystery, and local browser checkpoints rather than cross-device cloud saves. It still has no combat system, full collision/physics simulation, or finished connected rooms. The prologue is a stylized 3D storyboard, not a fully motion-captured short film. Remote assets can fail and fall back to procedural geometry. Browser runtime and visual testing are still required on the deployed site.
+This is an expanding prototype, not a finished commercial horror game. The current build has a single pursuer with basic chase and attack logic rather than a complete enemy AI, a short three-clue investigation rather than a branching mystery, and local browser checkpoints rather than cross-device cloud saves. It still has no combat system or full collision/physics simulation; the current collision handling is limited to closed doors, and the two side wings are early playable spaces rather than fully developed room sequences. The prologue is a stylized 3D storyboard, not a fully motion-captured short film. Remote assets can fail and fall back to procedural geometry. Browser runtime and visual testing are still required on the deployed site.
 
 ---
 **MICROVERSE COMPLETE** is the project. **THE HOLLOW** is its first survival-horror chapter.
