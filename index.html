@@ -261,7 +261,7 @@ if(localStorage.getItem('the-hollow-save-v1'))$('#continueGame').hidden=false;
 const prologueStage=new THREE.Group();scene.add(prologueStage);prologueStage.visible=false;
 function storyPerson(parent,x,z,coatColor,height=1.7){const g=new THREE.Group();g.position.set(x,0,z);parent.add(g);const coat=material(coatColor),skin=material('#6d5b4c');cylinder(g,.28,.38,height*.52,coat,0,height*.34,0,10);ball(g,.2,skin,0,height*.68,0,.85,1.1,.85);for(const side of [-1,1]){const arm=block(g,.13,height*.38,.14,coat,side*.3,height*.39,0);arm.rotation.z=-side*.12;block(g,.15,.55,.16,coat,side*.12,.14,0)}return g}
 function buildPrologueStage(){
- const stages=[],floorMat=material('#34312a'),wallMat=material('#4a4439'),darkWall=material('#151918'),stone=material('#777064'),cloth=material('#292523'),warm=material('#d3a46b');
+ const stages=[],floorMat=material('#34312a'),wallMat=material('#4a4439'),darkWall=material('#151918'),stone=material('#777064'),cloth=material('#292523'),warm=material('#d3a46b'),wood=material('#30251b'),gold=material('#b99a61');
  const addStage=(index,title)=>{
   const g=new THREE.Group();g.position.x=index*34;prologueStage.add(g);stages.push(g);
   block(g,25,.35,20,floorMat,0,-.22,0,false);
