@@ -429,6 +429,18 @@ function buildCreditsExterior(){
    const glow=new THREE.PointLight(0xffb978,1.1,7,1.8);glow.position.set(x,y,-16.8);creditsExterior.add(glow);
   }
  }
+ // Stone pilasters and upper-floor Juliet balconies break up the broad facade.
+ for(const x of [-20,-8,8,20]){
+  block(creditsExterior,.42,10.2,.55,stone,x,5.8,-18.05);
+  block(creditsExterior,.72,.28,.82,gold,x,10.95,-18.05);
+  block(creditsExterior,.72,.28,.82,gold,x,.72,-18.05);
+ }
+ for(const x of [-17,-11,-5,5,11,17]){
+  block(creditsExterior,2.85,.14,.48,stone,x,5.72,-17.82);
+  block(creditsExterior,2.85,.12,.12,iron,x,6.42,-17.62);
+  for(let n=-2;n<=2;n++)block(creditsExterior,.065,.68,.08,iron,x+n*.46,6.08,-17.62);
+  for(const side of [-1,1])block(creditsExterior,.1,.72,.1,gold,x+side*1.34,6.08,-17.62);
+ }
  // Central entrance tower, arched portico, double doors and broad steps.
  block(creditsExterior,8,8,1.2,stone,0,4,-17.2);
  block(creditsExterior,5.1,5.7,.28,wood,0,3.2,-16.45);
