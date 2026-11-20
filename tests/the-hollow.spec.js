@@ -78,6 +78,7 @@ test('prologue advances only on Enter and keeps each animated tableau isolated',
  await page.getByRole('button',{name:'MULAI PERMAINAN'}).click();
  await expect(page.locator('#prologue-chapter')).toHaveText('THE LAST GOODBYE');
  await expect.poll(()=>page.evaluate(()=>window.__THE_HOLLOW_TEST__.visualState().visiblePrologueScenes)).toBe(1);
+ await expect.poll(()=>page.evaluate(()=>window.__THE_HOLLOW_TEST__.visualState().articulatedCharacterCount)).toBeGreaterThan(0);
  await expect(page.locator('#prologue-progress')).toContainText('ENTER UNTUK LANJUT');
  await page.waitForTimeout(12000);
  await expect(page.locator('#prologue-chapter')).toHaveText('THE LAST GOODBYE');
