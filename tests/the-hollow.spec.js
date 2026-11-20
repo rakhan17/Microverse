@@ -94,7 +94,7 @@ test('farewell character walk drives real arm and leg joints',async({page})=>{
  await page.goto('/?e2e=1');
  await page.getByRole('button',{name:'MULAI PERMAINAN'}).click();
  for(let i=0;i<4;i++)await page.keyboard.press('Enter');
- await expect(page.locator('#prologue-chapter')).toHaveText('FAREWELL');
+ await expect(page.locator('#prologue-chapter')).toHaveText('TWO YEARS LATER');
  await page.waitForTimeout(650);
  const pose=await page.evaluate(()=>window.__THE_HOLLOW_TEST__.visualState().departingRigPose);
  expect(pose).not.toBeNull();
