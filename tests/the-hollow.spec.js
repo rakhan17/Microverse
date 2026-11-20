@@ -29,3 +29,19 @@ test('player collision follows the rendered mansion side walls',async({page})=>{
 });
 
 test('player collision blocks the main hall bookshelf without trapping the player',async({page})=>{await page.goto('/?e2e=1');await page.getByRole('button',{name:'MULAI PERMAINAN'}).click();await page.getByRole('button',{name:'LEWATI PROLOG'}).click();await page.waitForFunction(()=>Boolean(window.__THE_HOLLOW_TEST__));await page.evaluate(()=>window.__THE_HOLLOW_TEST__.setPlayerPosition(6.5,3.4));await page.keyboard.down('d');await page.waitForTimeout(1400);await page.keyboard.up('d');const position=await page.evaluate(()=>window.__THE_HOLLOW_TEST__.playerPosition());expect(position.x).toBeGreaterThan(6.5);expect(position.x).toBeLessThanOrEqual(7.5);expect(position.z).toBeCloseTo(3.4,1);});
+
+
+test('closed-door collision matches the actual scaled door leaf instead of an oversized invisible wall',async({page})=>{
+ await page.goto('/?e2e=1');
+ await page.getByRole('button',{name:'MULAI PERMAINAN'}).click();
+ await page.getByRole('button',{name:'LEWATI PROLOG'}).click();
+ await page.waitForFunction(()=>Boolean(window.__THE_HOLLOW_TEST__));
+ const collision=await page.evaluate(()=>({
+  leaf:window.__THE_HOLLOW_TEST__.isPositionBlocked(11.68,-2),
+  nearEdge:window.__THE_HOLLOW_TEST__.isPositionBlocked(11.3,-2),
+  outsideLeaf:window.__THE_HOLLOW_TEST__.isPositionBlocked(11.0,-2)
+ }));
+ expect(collision.leaf).toBe(true);
+ expect(collision.nearEdge).toBe(true);
+ expect(collision.outsideLeaf).toBe(false);
+});
