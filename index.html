@@ -220,7 +220,8 @@ function blockedByClosedDoor(x,z){
  for(const door of doors){
   if(door.open)continue;
   const p=door.pivot.getWorldPosition(new THREE.Vector3()),centerZ=p.z+door.side*1.24;
-  if(Math.abs(x-p.x)<1.24+PLAYER_RADIUS&&Math.abs(z-centerZ)<2.36+PLAYER_RADIUS)return true;
+  /* Door leaf is .12 x 1.24 in local X/Z; the mansion doubles its world dimensions. */
+  if(Math.abs(x-p.x)<.12+PLAYER_RADIUS&&Math.abs(z-centerZ)<1.24+PLAYER_RADIUS)return true;
  }
  return false;
 }
@@ -228,6 +229,7 @@ function playerPositionBlocked(x,z){return blockedByStaticWall(x,z)||blockedByCl
 if(new URLSearchParams(location.search).has('e2e')){
  window.__THE_HOLLOW_TEST__=Object.freeze({
   playerPosition:()=>({x:camera.position.x,z:camera.position.z}),
+  isPositionBlocked:(x,z)=>playerPositionBlocked(x,z),
   setPlayerPosition:(x,z)=>{camera.position.set(x,1.68,z);yaw=0;pitch=0;velocity.set(0,0,0);camera.rotation.set(0,0,0);},
   snapshot:()=>({state,stamina,keys:{...keys},velocity:{x:velocity.x,z:velocity.z},position:{x:camera.position.x,z:camera.position.z}})
  });
