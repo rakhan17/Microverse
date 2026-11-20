@@ -11,12 +11,12 @@ His father is away. The doors to the rest of the estate are waiting. Somewhere i
 - Eight-part cinematic prologue introducing the family's loss, the mother's decline and death, Libert's grief, his father's departure, the bedroom attack, and Libert waking in the grand hall.
 - An enlarged mansion reception hall with monumental columns, a multi-tier chandelier, velvet salon seating, a large carpet, portrait gallery, decorative stair flights, fireplace, statue, and scattered debris.
 - Early estate grounds: damaged approach, abandoned sedan, disturbed earth mounds, dead trees, broken garden wall, old fountain, weeds, rubble, and a decaying bench.
-- First-person movement, mouse look, sprint, pointer lock, and an interaction prompt.
+- First-person movement, mouse look, sprint, crouch-based stealth, pointer lock, and an interaction prompt.
 - Two side wings connect to the main hall: an accessible bedroom and a locked evidence-storage room. Closed doors block movement; the storage door requires the brass key.
 - The bedroom wing now has two physical hiding places: a wardrobe and the space beneath the bed. Press E to enter or leave; movement and the flashlight are disabled while hidden, and Marlow can still discover and attack Libert if he gets close.
 - Five inventory slots with a flashlight, exit key, rechargeable batteries, first-aid kits, and defensive flares.
 - Two connected side wings: an accessible bedroom and a key-locked evidence-storage room, with distinct furniture, shelving, and lighting.
-- Survival resources: health and flashlight charge. The flashlight drains while active; batteries replenish it, first-aid restores health, and flares briefly repel the pursuer.
+- Survival resources: health and flashlight charge. The flashlight drains while active; batteries replenish it, first-aid restores health, and flares briefly repel the pursuer. Crouching slows Libert and reduces his visibility and footstep noise; sprinting is faster but carries much farther.
 - Item use controls: F toggles the flashlight; R uses the selected consumable.
 - Three physical investigation clues, a journal, and an evidence-gated chapter exit requiring the mansion key.
 - A three-wheel combination lock in the evidence room. The digits are discovered across the three clues; entering 241 opens a hidden compartment containing a new story revelation.
@@ -31,7 +31,8 @@ His father is away. The doors to the rest of the estate are waiting. Somewhere i
 |---|---|
 | W / A / S / D | Move |
 | Mouse | Look around |
-| Shift | Run |
+| Shift | Run (louder and easier to detect) |
+| C / Ctrl (hold) | Crouch (slower and quieter) |
 | E | Interact with the highlighted object or door |
 | 1–5 | Select inventory slot |
 | F | Toggle flashlight (requires the flashlight item) |
