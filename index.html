@@ -219,7 +219,7 @@ function blockedByStaticWall(x,z){
 function blockedByClosedDoor(x,z){
  for(const door of doors){
   if(door.open)continue;
-  const p=door.pivot.getWorldPosition(new THREE.Vector3()),centerZ=p.z+door.side*2.48;
+  const p=door.pivot.getWorldPosition(new THREE.Vector3()),centerZ=p.z+door.side*1.24;
   if(Math.abs(x-p.x)<1.24+PLAYER_RADIUS&&Math.abs(z-centerZ)<2.36+PLAYER_RADIUS)return true;
  }
  return false;
