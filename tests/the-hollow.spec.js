@@ -17,13 +17,13 @@ test('player collision follows the rendered mansion side walls',async({page})=>{
  await page.getByRole('button',{name:'MULAI PERMAINAN'}).click();
  await page.getByRole('button',{name:'LEWATI PROLOG'}).click();
  await page.waitForFunction(()=>Boolean(window.__THE_HOLLOW_TEST__));
- await page.evaluate(()=>window.__THE_HOLLOW_TEST__.setPlayerPosition(10.8,6));
+ await page.evaluate(()=>window.__THE_HOLLOW_TEST__.setPlayerPosition(10,-1));
  await page.keyboard.down('d');
  await page.waitForTimeout(1800);
  await page.keyboard.up('d');
  const position=await page.evaluate(()=>window.__THE_HOLLOW_TEST__.playerPosition());
- expect(position.x).toBeGreaterThan(10.8);
- expect(position.x).toBeLessThanOrEqual(11.5);
- expect(position.z).toBeCloseTo(6,1);
+ expect(position.x).toBeGreaterThan(10);
+ expect(position.x).toBeLessThanOrEqual(10.55);
+ expect(position.z).toBeCloseTo(-1,1);
  expect(errors).toEqual([]);
 });
