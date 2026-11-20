@@ -291,7 +291,7 @@ function storyPerson(parent,x,z,coatColor,height=1.7){
   ball(elbow,.064,skin,0,-.28,.012);
   // Separate tapered fingers and a thumb break the mitten silhouette in close shots.
   for(let finger=0;finger<4;finger++){
-   const spread=(finger-1.5)*.025,len=.075+(finger===1||finger===2?.012:0);
+   const spread=(finger-1.5)*.025,len=.075+((finger===1||finger===2)?0.012:0);
    const digit=capsule(elbow,.012,len,skin,[spread,-.335-len*.34,.018]);
    digit.rotation.z=(finger-1.5)*-.09;
   }
