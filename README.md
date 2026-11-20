@@ -66,6 +66,12 @@ Deploy the repository root to Vercel with:
 
 The project loads Three.js and selected models over HTTPS. The Poly Haven proxy at `/api/polyhaven` requires a serverless deployment such as Vercel; it will not work from a plain static file opened directly from disk.
 
+## 3D rendering and visual QA
+
+Visual quality is a release priority for THE HOLLOW. The renderer currently uses antialiasing, ACES filmic tone mapping, sRGB output, capped device-pixel ratio, anisotropic texture filtering within the GPU's supported limit, and a higher-resolution directional shadow map covering the mansion play space. The canvas also handles browser resizes and listens for WebGL context loss/restoration so a temporary GPU reset can be surfaced instead of silently leaving the player with a frozen view.
+
+These are rendering safeguards, not proof that every scene is glitch-free. The current world still mixes procedural geometry with optional remote GLTF assets, and remote assets can fall back to simpler geometry. Before merge, the deployed build must receive a visual pass on desktop and smaller screens: inspect wall/floor seams, z-fighting, shadow acne, object intersections, camera clipping, doorway transitions, asset loading failures, and sustained frame pacing. Automated canvas smoke tests cannot replace that visual inspection.
+
 ## Browser regression tests
 
 The repository includes Playwright smoke tests for the rendered 3D canvas, main-menu settings, cinematic credits, prologue skipping, and the ESC pause flow. GitHub Actions runs these tests on pushes and pull requests. A passing CI run verifies the tested browser paths, not a complete commercial release or every possible GPU/browser combination.
