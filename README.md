@@ -68,13 +68,15 @@ The project loads Three.js and selected models over HTTPS. The Poly Haven proxy 
 
 ## 3D rendering and visual QA
 
-Visual quality is a release priority for THE HOLLOW. The renderer currently uses antialiasing, ACES filmic tone mapping, sRGB output, capped device-pixel ratio, anisotropic texture filtering within the GPU's supported limit, and a higher-resolution directional shadow map covering the mansion play space. The canvas also handles browser resizes and listens for WebGL context loss/restoration so a temporary GPU reset can be surfaced instead of silently leaving the player with a frozen view.
+Visual quality is a release priority for THE HOLLOW. The renderer uses antialiasing, ACES filmic tone mapping, sRGB output, a capped device-pixel ratio, GPU-aware anisotropic filtering, and a higher-resolution directional shadow map. Browser resizing updates the renderer and camera projection; WebGL context loss/restoration is surfaced to the player.
 
-These are rendering safeguards, not proof that every scene is glitch-free. The current world still mixes procedural geometry with optional remote GLTF assets, and remote assets can fall back to simpler geometry. Before merge, the deployed build must receive a visual pass on desktop and smaller screens: inspect wall/floor seams, z-fighting, shadow acne, object intersections, camera clipping, doorway transitions, asset loading failures, and sustained frame pacing. Automated canvas smoke tests cannot replace that visual inspection.
+Player movement now uses static collision bounds derived from the actual rendered mansion wall meshes, transformed into world space. The same wall geometry therefore drives both appearance and player blocking, including the scaled bedroom and evidence wings. Movement resolves the horizontal axes separately so the player can slide along a wall instead of getting stuck against a corner. Closed doors retain their own dynamic collision checks.
+
+These are safeguards and regression coverage, not proof that every scene is glitch-free. The current world still mixes procedural geometry with optional remote GLTF assets, and remote assets can fall back to simpler geometry. Before merge, the deployed build must receive a visual pass on desktop and smaller screens: inspect wall/floor seams, z-fighting, shadow acne, object intersections, camera clipping, doorway transitions, asset loading failures, and sustained frame pacing.
 
 ## Browser regression tests
 
-The repository includes Playwright smoke tests for the rendered 3D canvas, main-menu settings, cinematic credits, prologue skipping, and the ESC pause flow. GitHub Actions runs these tests on pushes and pull requests. A passing CI run verifies the tested browser paths, not a complete commercial release or every possible GPU/browser combination.
+The repository includes Playwright smoke tests for the rendered 3D canvas, main-menu settings, cinematic credits, prologue skipping, the ESC pause flow, survival HUD/stamina, and a player-wall collision regression check. GitHub Actions runs these tests on pushes and pull requests. A passing CI run verifies the tested browser paths, not a complete commercial release or every possible GPU/browser combination.
 
 Run locally with:
 
