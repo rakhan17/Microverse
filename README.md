@@ -13,6 +13,7 @@ His father is away. The doors to the rest of the estate are waiting. Somewhere i
 - Early estate grounds: damaged approach, abandoned sedan, disturbed earth mounds, dead trees, broken garden wall, old fountain, weeds, rubble, and a decaying bench.
 - First-person movement, mouse look, sprint, pointer lock, and an interaction prompt.
 - Two side wings connect to the main hall: an accessible bedroom and a locked evidence-storage room. Closed doors block movement; the storage door requires the brass key.
+- The bedroom wing now has two physical hiding places: a wardrobe and the space beneath the bed. Press E to enter or leave; movement and the flashlight are disabled while hidden, and Marlow can still discover and attack Libert if he gets close.
 - Five inventory slots with a flashlight, exit key, rechargeable batteries, first-aid kits, and defensive flares.
 - Two connected side wings: an accessible bedroom and a key-locked evidence-storage room, with distinct furniture, shelving, and lighting.
 - Survival resources: health and flashlight charge. The flashlight drains while active; batteries replenish it, first-aid restores health, and flares briefly repel the pursuer.
@@ -37,6 +38,7 @@ His father is away. The doors to the rest of the estate are waiting. Somewhere i
 | R | Use selected battery, first-aid kit, or flare |
 | Esc | Open / close pause menu |
 | J | Open / close investigation journal |
+| E while hidden | Leave the wardrobe or crawl out from under the bed |
 | Click game view | Capture mouse again |
 
 ## Story direction
@@ -77,7 +79,7 @@ npm run test:e2e
 
 ## Known limitations
 
-This is an expanding prototype, not a finished commercial horror game. The current build has a single pursuer with patrol, chase, and search states, but without full line-of-sight or room-aware sound simulation, a short three-clue investigation with one fixed-code secret rather than a branching mystery, and local browser checkpoints rather than cross-device cloud saves. It still has no combat system or full collision/physics simulation; the current collision handling is limited to closed doors, and the two side wings are early playable spaces rather than fully developed room sequences. The prologue is a stylized 3D storyboard, not a fully motion-captured short film. Remote assets can fail and fall back to procedural geometry. Browser runtime and visual testing are still required on the deployed site.
+This is an expanding prototype, not a finished commercial horror game. The current build has a single pursuer with patrol, chase, and search states, plus two hiding spots that use proximity-based discovery rather than full line-of-sight or room-aware sound simulation, a short three-clue investigation with one fixed-code secret rather than a branching mystery, and local browser checkpoints rather than cross-device cloud saves. It still has no combat system or full collision/physics simulation; the current collision handling is limited to closed doors, and the two side wings are early playable spaces rather than fully developed room sequences. The prologue is a stylized 3D storyboard, not a fully motion-captured short film. Remote assets can fail and fall back to procedural geometry. Browser runtime and visual testing are still required on the deployed site.
 
 ---
 **MICROVERSE COMPLETE** is the project. **THE HOLLOW** is its first survival-horror chapter.
