@@ -454,7 +454,19 @@ function buildCreditsExterior(){
  }
  // Gate pillars and open double wrought-iron leaves, aligned with the one road to town.
  for(const x of [-7,7]){block(creditsExterior,1.4,5,1.4,stone,x,2.5,23);ball(creditsExterior,.7,gold,x,5.3,23);cylinder(creditsExterior,.12,.12,4,iron,x,2,23,10)}
- for(const side of [-1,1])for(let i=0;i<8;i++){const x=side*(7+i*.72);block(creditsExterior,.1,3,.12,iron,x,1.5,23);block(creditsExterior,.1,3,.12,iron,x,1.5,23)}
+ // Two wrought-iron gate leaves are hinged open toward the viewer.
+ for(const side of [-1,1]){
+  const leafGroup=new THREE.Group();leafGroup.position.set(side*7,0,23);leafGroup.rotation.y=side*.78;creditsExterior.add(leafGroup);
+  const direction=-side;
+  block(leafGroup,5.8,.14,.16,iron,direction*2.9,2.65,0);
+  block(leafGroup,5.8,.14,.16,iron,direction*2.9,.55,0);
+  for(let i=0;i<=8;i++){
+   const x=direction*(i*.72);
+   block(leafGroup,.09,2.15,.1,iron,x,1.58,0);
+   const spear= new THREE.Mesh(new THREE.ConeGeometry(.09,.28,4),gold);spear.position.set(x,2.82,0);leafGroup.add(spear);
+  }
+  block(leafGroup,.2,2.35,.2,gold,direction*5.72,1.58,0);
+ }
  // The road runs away from the mansion through the forest toward a distant town glow.
  for(let i=0;i<14;i++){const lamp=new THREE.PointLight(0xffbd80,i<3?2.2:.65,18,1.8);lamp.position.set((i%2?1:-1)*5,3,30+i*7);creditsExterior.add(lamp);cylinder(creditsExterior,.12,.16,5,iron,(i%2?1:-1)*5,2.5,30+i*7,10);ball(creditsExterior,.24,gold,(i%2?1:-1)*5,5,30+i*7)}
  for(let i=0;i<5;i++){const glow=ball(creditsExterior,1.2,material('#b18a60',.8,0),-3+i*1.5,2+i*.4,110,2,1.5,1);glow.material.emissive=new THREE.Color('#5a351c');glow.material.emissiveIntensity=.7}for(let i=0;i<7;i++){const x=-24+i*8,h=8+(i%3)*4,w=5+(i%2)*2;block(creditsExterior,w,h,5,material('#1d2222'),x,h/2-.2,142,false);for(let y=2;y<h-1;y+=3)for(let q=-1;q<=1;q++){const lit=block(creditsExterior,.35,.55,.08,material('#8c704f'),x+q*w/4,y,139.4,false);lit.material.emissive=new THREE.Color('#4d3219');lit.material.emissiveIntensity=.6;}}
