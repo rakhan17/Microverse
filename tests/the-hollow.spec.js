@@ -2,7 +2,7 @@ import {test,expect} from '@playwright/test';import {PNG} from 'pngjs';
 test.beforeEach(async({page})=>{await page.route('**/api/polyhaven**',route=>route.fulfill({status:503,contentType:'application/json',body:'{"error":"test fallback"}'}));await page.route('**/CesiumMan.glb',route=>route.abort());});
 test('main menu renders a live 3D scene, not a blank black page',async({page})=>{const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto('/');await expect(page.locator('canvas')).toBeVisible();await expect(page.locator('#menu')).toBeVisible();await page.waitForTimeout(1800);const png=PNG.sync.read(await page.screenshot());const colors=new Set();let lit=0;for(let y=0;y<png.height;y+=8)for(let x=0;x<png.width;x+=8){const i=(y*png.width+x)*4,r=png.data[i],g=png.data[i+1],b=png.data[i+2];colors.add((r>>3)+','+(g>>3)+','+(b>>3));if(r+g+b>55)lit++;}expect(colors.size).toBeGreaterThan(45);expect(lit).toBeGreaterThan(100);expect(errors).toEqual([]);});
 test('settings panel opens and closes from the main menu',async({page})=>{await page.goto('/');await page.locator('#settingsOpen').click();await expect(page.locator('#settings')).toHaveClass(/show/);await page.evaluate(()=>document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true,cancelable:true})));await expect(page.locator('#settings')).not.toHaveClass(/show/);});
-test('credits are a cinematic sequence with a moving 3D backdrop',async({page})=>{test.setTimeout(90000);const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto('/');await page.getByRole('button',{name:'KREDIT'}).click();await expect(page.locator('#cinema')).toHaveClass(/show/);await expect(page.locator('.cinema-title')).toContainText('THE HOLLOW');await expect(page.locator('.credits-roll-inner')).toBeVisible();await expect(page.locator('#creditsChapter')).toBeVisible();await expect(page.locator('canvas')).toBeVisible();await expect(page.locator('.cinema-title-wrap')).toBeVisible();await page.waitForTimeout(500);await page.getByRole('button',{name:'KEMBALI'}).click();await expect(page.locator('#cinema')).not.toHaveClass(/show/);expect(errors).toEqual([]);});
+test('credits are a cinematic sequence with a moving 3D backdrop',async({page})=>{test.setTimeout(90000);const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto('/');await page.getByRole('button',{name:'KREDIT'}).click();await expect(page.locator('#cinema')).toHaveClass(/show/);await expect(page.locator('#menu')).toHaveCSS('visibility','hidden');await expect(page.locator('.cinema-title')).toContainText('THE HOLLOW');await expect.poll(()=>page.evaluate(()=>window.__THE_HOLLOW_TEST__?.visualState().creditsVisible)).toBe(true);await expect(page.locator('.credits-roll-inner')).toBeVisible();await expect(page.locator('#creditsChapter')).toBeVisible();await expect(page.locator('canvas')).toBeVisible();await expect(page.locator('.cinema-title-wrap')).toBeVisible();await page.waitForTimeout(500);await page.getByRole('button',{name:'KEMBALI'}).click();await expect(page.locator('#cinema')).not.toHaveClass(/show/);expect(errors).toEqual([]);});
 test('prologue can be skipped and ESC opens a working pause menu',async({page})=>{const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto('/');await page.getByRole('button',{name:'MULAI PERMAINAN'}).click();await expect(page.locator('#prologue')).toHaveClass(/show/);await page.getByRole('button',{name:'LEWATI PROLOG'}).click();await expect(page.locator('#hud')).toHaveClass(/on/);await page.evaluate(()=>document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true,cancelable:true})));await expect(page.locator('#pause')).toHaveClass(/show/);await page.locator('#pauseSettings').click();await expect(page.locator('#pause')).toHaveClass(/show/);await expect(page.locator('#settings')).toHaveClass(/show/);await page.evaluate(()=>document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true,cancelable:true})));await expect(page.locator('#settings')).not.toHaveClass(/show/);await expect(page.locator('#pause')).toHaveClass(/show/);await expect(page.locator('#settings')).not.toHaveClass(/show/);await page.locator('#resumeGame').click();await expect(page.locator('#pause')).not.toHaveClass(/show/);await page.evaluate(()=>document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true,cancelable:true})));await expect(page.locator('#pause')).toHaveClass(/show/);await page.locator('#returnMenu').evaluate(el=>el.click());await expect(page.locator('#menu')).toBeVisible();expect(errors).toEqual([]);});
 
 test('journal opens with J and checkpoint survives a reload',async({page})=>{test.setTimeout(90000);const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto('/');await page.getByRole('button',{name:'MULAI PERMAINAN'}).click();await page.getByRole('button',{name:'LEWATI PROLOG'}).click();await expect(page.locator('#hud')).toHaveClass(/on/);await page.evaluate(()=>document.dispatchEvent(new KeyboardEvent('keydown',{key:'j',bubbles:true,cancelable:true})));await expect(page.locator('#journal')).toHaveClass(/show/);await expect(page.locator('.journal-empty')).toContainText('Belum ada petunjuk');await page.locator('#saveNow').evaluate(el=>el.click());expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('the-hollow-save-v1')||'null')?.version)).toBe(1);await page.reload();await page.waitForFunction(()=>window.__THE_HOLLOW_READY__===true);await page.waitForFunction(()=>Boolean(localStorage.getItem('the-hollow-save-v1')));await expect(page.locator('#continueGame')).toBeVisible();await page.locator('#continueGame').click();await expect(page.locator('#hud')).toHaveClass(/on/);expect(errors).toEqual([]);});
@@ -44,4 +44,30 @@ test('closed-door collision matches the actual scaled door leaf instead of an ov
  expect(collision.leaf).toBe(true);
  expect(collision.nearEdge).toBe(true);
  expect(collision.outsideLeaf).toBe(false);
+});
+
+test('prologue renders a lit 3D story scene instead of a black screen',async({page})=>{
+ await page.goto('/');
+ await page.getByRole('button',{name:'MULAI PERMAINAN'}).click();
+ await expect(page.locator('#prologue')).toHaveClass(/show/);
+ await expect.poll(()=>page.evaluate(()=>window.__THE_HOLLOW_TEST__?.visualState().prologueVisible)).toBe(true);
+ await page.waitForTimeout(900);
+ const png=PNG.sync.read(await page.screenshot()),colors=new Set();let lit=0;
+ for(let y=0;y<png.height;y+=7)for(let x=0;x<png.width;x+=7){const i=(y*png.width+x)*4,r=png.data[i],g=png.data[i+1],b=png.data[i+2];colors.add((r>>3)+','+(g>>3)+','+(b>>3));if(r+g+b>75)lit++;}
+ expect(colors.size).toBeGreaterThan(40);
+ expect(lit).toBeGreaterThan(180);
+});
+test('performance overlay can be enabled in settings and appears in game',async({page})=>{
+ await page.goto('/');
+ await page.getByRole('button',{name:'MULAI PERMAINAN'}).click();
+ await page.getByRole('button',{name:'LEWATI PROLOG'}).click();
+ await page.keyboard.press('Escape');
+ await page.locator('#pauseSettings').click();
+ await page.locator('#showPerf').check();
+ await page.keyboard.press('Escape');
+ await page.locator('#resumeGame').click();
+ await expect(page.locator('#perfOverlay')).toHaveClass(/show/);
+ await expect(page.locator('#perfOverlay')).toContainText('FPS');
+ await expect(page.locator('#perfOverlay')).toContainText('DRAW CALLS');
+ await expect.poll(()=>page.evaluate(()=>localStorage.getItem('the-hollow-perf-v1'))).toBe('1');
 });
