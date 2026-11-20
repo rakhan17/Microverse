@@ -358,27 +358,67 @@ function returnToMenu(){isHidden=false;hiddenSpot=null;document.exitPointerLock?
 function keysReset(){for(const k in keys)keys[k]=false;const stance=$('#stanceLabel');if(stance)stance.textContent='BERDIRI';}window.addEventListener('blur',()=>{keysReset();});
 const creditsExterior=new THREE.Group();scene.add(creditsExterior);creditsExterior.visible=false;
 function buildCreditsExterior(){
- const facade=material('#51483d'),stone=material('#777064'),roof=material('#242322'),glass=material('#9a8060',.22,.25),wood=material('#30221b'),gold=material('#b99a61',.45,.45);
- block(creditsExterior,34,12,13,facade,0,6,0);block(creditsExterior,38,1.1,15,stone,0,.55,0);
- for(const x of [-18,18])block(creditsExterior,12,10,12,facade,x,5,1);
- block(creditsExterior,12,15,12,stone,0,7.5,-1);
- const roofPanel=(w,h,d,x,y,z,rz)=>{const o=block(creditsExterior,w,h,d,roof,x,y,z);o.rotation.z=rz;return o};
- roofPanel(21,1.3,15,-6,13.2,0,-.48);roofPanel(21,1.3,15,6,13.2,0,.48);
- roofPanel(13,1.2,14,-18,10.7,1,-.38);roofPanel(13,1.2,14,18,10.7,1,.38);
- roofPanel(14,1.2,14,-4,16.2,-1,-.5);roofPanel(14,1.2,14,4,16.2,-1,.5);
- for(const x of [-14,-8,8,14]){block(creditsExterior,2.1,4.2,.3,stone,x,5.8,-6.62);block(creditsExterior,1.35,2.8,.12,glass,x,5.9,-6.8);block(creditsExterior,.16,3,.16,gold,x,5.9,-6.9)}
- block(creditsExterior,4.2,6,.45,wood,0,3.5,-6.8);block(creditsExterior,.25,5.2,.08,gold,0,3.5,-7.06);ball(creditsExterior,.13,gold,1.35,3.5,-7.1);
- for(const x of [-3.6,3.6]){cylinder(creditsExterior,.48,.58,7,stone,x,4.2,-8.1,16);cylinder(creditsExterior,.72,.72,.38,gold,x,7.8,-8.1,16);cylinder(creditsExterior,.72,.72,.38,gold,x,.7,-8.1,16)}
- block(creditsExterior,11,.55,5,stone,0,.3,-9);for(let i=0;i<4;i++)block(creditsExterior,8,.35,2,stone,0,-.05+i*.25,-12-i*1.7);
- for(const x of [-12,-6,6,12]){block(creditsExterior,2.2,3.8,.35,stone,x,2.2,-6.8);block(creditsExterior,1.55,2.7,.12,glass,x,2.25,-7.02)}
- const ground=block(creditsExterior,180,.5,180,material('#171b17'),0,-.55,0,false);ground.receiveShadow=true;
- const path=block(creditsExterior,12,.08,80,material('#454039'),0,-.24,-42,false);path.receiveShadow=true;
- for(const side of [-1,1])for(let i=0;i<9;i++){const x=side*(22+(i%3)*5),z=-12-i*7,h=7+(i%4)*1.6;cylinder(creditsExterior,.3,.48,h,material('#171916'),x,h/2-.2,z,8);for(let j=0;j<4;j++)ball(creditsExterior,2.6,material('#20271f'),x+(j%2-.5)*1.1,h*.66+j*.55,z,1.4,.85,1.25)}
- for(const x of [-10,10]){const lamp=new THREE.PointLight(0xffc987,5,28,1.6);lamp.position.set(x,5,-9);creditsExterior.add(lamp)}
- const moonlight=new THREE.DirectionalLight(0xb6c9dc,2.4);moonlight.position.set(-24,34,22);creditsExterior.add(moonlight);
- creditsExterior.add(new THREE.HemisphereLight(0x9eabb9,0x2c2118,1.15));
-}
-buildCreditsExterior();
+ const wall=material('#62594d'),stone=material('#898071'),roof=material('#242422'),roofEdge=material('#393631'),glass=material('#9b8060',.22,.18),wood=material('#30231b'),iron=material('#242a28',.55,.7),gold=material('#b99a61',.4,.6),groundMat=material('#252820'),roadMat=material('#514c43'),bark=material('#29251e'),leaf=material('#1b241e'),leaf2=material('#263027');
+ // A broad, imposing Victorian manor with a central tower, two wings and layered pitched roofs.
+ block(creditsExterior,44,1.2,30,stone,0,.2,-31);
+ block(creditsExterior,40,10,25,wall,0,5.8,-31);
+ block(creditsExterior,13,15,17,stone,0,8.2,-29);
+ block(creditsExterior,16,9,21,wall,-14,5.3,-30);block(creditsExterior,16,9,21,wall,14,5.3,-30);
+ block(creditsExterior,10,7,11,wall,0,4.2,-12.8);
+ const roofSlope=(w,d,x,y,z,angle)=>{const p=block(creditsExterior,w,1.15,d,roof,x,y,z);p.rotation.z=angle;return p};
+ // Main steep roofs and projecting gables.
+ roofSlope(24,19,-10,12.1,-30,-.58);roofSlope(24,19,10,12.1,-30,.58);
+ roofSlope(12,17,-14,10.2,-30,-.53);roofSlope(12,17,14,10.2,-30,.53);
+ roofSlope(16,14,-3.8,16.2,-29,-.62);roofSlope(16,14,3.8,16.2,-29,.62);
+ // Gable faces, chimney stacks and stone corner quoins.
+ for(const x of [-20,20]){block(creditsExterior,1.4,12,1.4,stone,x,6,-19);block(creditsExterior,1.4,12,1.4,stone,x,6,-42)}
+ for(const x of [-16,16]){block(creditsExterior,2.2,8,2.2,stone,x,13,-30);block(creditsExterior,2.7,1.1,2.7,roofEdge,x,17.5,-30)}
+ for(const x of [-7,7])block(creditsExterior,1.8,7,1.8,stone,x,14,-34);
+ // Tall mullioned windows, warm inner glow, and stone lintels.
+ for(const x of [-17,-11,-5,5,11,17]){
+  for(const y of [3.6,7.6]){
+   block(creditsExterior,2.55,3.3,.28,stone,x,y,-18.38);
+   block(creditsExterior,1.95,2.65,.12,glass,x,y,-18.2);
+   block(creditsExterior,.13,2.7,.1,iron,x,y,-18.08);block(creditsExterior,1.95,.13,.1,iron,x,y,-18.08);
+   block(creditsExterior,.12,2.7,.12,stone,x,y,-18.04);
+   block(creditsExterior,2.8,.2,.42,stone,x,y+1.75,-18.38);
+   const glow=new THREE.PointLight(0xffb978,1.1,7,1.8);glow.position.set(x,y,-16.8);creditsExterior.add(glow);
+  }
+ }
+ // Central entrance tower, arched portico, double doors and broad steps.
+ block(creditsExterior,8,8,1.2,stone,0,4,-17.2);
+ block(creditsExterior,5.1,5.7,.28,wood,0,3.2,-16.45);
+ block(creditsExterior,.16,5.4,.12,gold,0,3.1,-16.25);
+ for(const x of [-3.8,3.8]){cylinder(creditsExterior,.55,.72,7,stone,x,3.8,-15.6,20);cylinder(creditsExterior,.8,.8,.35,gold,x,7.5,-15.6,20);cylinder(creditsExterior,.8,.8,.35,gold,x,.35,-15.6,20)}
+ block(creditsExterior,10,.7,3,stone,0,.35,-13.7);
+ for(let i=0;i<5;i++)block(creditsExterior,13-i*1.25,.35,1.3,stone,0,.05+i*.3,-11.5+i*1.25);
+ block(creditsExterior,11,.5,1.1,roofEdge,0,8.2,-16.8);
+ // Front garden: broad open lawn, cracked stone approach, dead trees and low gravestones.
+ block(creditsExterior,180,.55,180,groundMat,0,-.55,30,false);
+ block(creditsExterior,9,.09,76,roadMat,0,-.24,64,false);
+ for(let i=0;i<7;i++){const slab=block(creditsExterior,5,.08,2.4,stone,0,-.18,(-8+i*3),false);slab.rotation.y=(i%2?-.05:.04)}
+ for(const side of [-1,1]){
+  // Long iron fence frames the grounds and opens only at the central gate.
+  for(let z=-12;z<=24;z+=3){if(z>4&&z<13)continue;const x=side*29;cylinder(creditsExterior,.18,.22,3,stone,x,1.35,z,12);block(creditsExterior,.12,1.9,.12,iron,x,1.3,z);if(z<24){block(creditsExterior,1.5,.09,.09,iron,x+side*.75,1.9,z);block(creditsExterior,1.5,.09,.09,iron,x+side*.75,.75,z)}}
+  // Forest wall: dense trunks, overlapping canopies and a dark tree line on both sides.
+  for(let i=0;i<38;i++){
+   const x=side*(34+((i*17)%25)),z=-75+((i*23)%150),h=8+(i%5)*1.7;
+   cylinder(creditsExterior,.32,.55,h,bark,x,h/2-.3,z,9);
+   for(let j=0;j<5;j++){const crown=ball(creditsExterior,2.5,j%2?leaf:leaf2,x+(j%2-.5)*1.4,h*.67+j*.55,z+(j%3-1)*.6,1.35,.95,1.25);crown.rotation.y=i*.7}
+   if(i%3===0){const branch=block(creditsExterior,.18,.18,3,bark,x+side*.8,h*.72,z);branch.rotation.z=side*.45}
+  }
+ }
+ // Gate pillars and open double wrought-iron leaves, aligned with the one road to town.
+ for(const x of [-7,7]){block(creditsExterior,1.4,5,1.4,stone,x,2.5,23);ball(creditsExterior,.7,gold,x,5.3,23);cylinder(creditsExterior,.12,.12,4,iron,x,2,23,10)}
+ for(const side of [-1,1])for(let i=0;i<8;i++){const x=side*(7+i*.72);block(creditsExterior,.1,3,.12,iron,x,1.5,23);block(creditsExterior,.1,3,.12,iron,x,1.5,23)}
+ // The road runs away from the mansion through the forest toward a distant town glow.
+ for(let i=0;i<14;i++){const lamp=new THREE.PointLight(0xffbd80,i<3?2.2:.65,18,1.8);lamp.position.set((i%2?1:-1)*5,3,30+i*7);creditsExterior.add(lamp);cylinder(creditsExterior,.12,.16,5,iron,(i%2?1:-1)*5,2.5,30+i*7,10);ball(creditsExterior,.24,gold,(i%2?1:-1)*5,5,30+i*7)}
+ for(let i=0;i<5;i++){const glow=ball(creditsExterior,1.2,material('#b18a60',.8,0),-3+i*1.5,2+i*.4,110,2,1.5,1);glow.material.emissive=new THREE.Color('#5a351c');glow.material.emissiveIntensity=.7}
+ // Moonlight and warm architectural accents keep the silhouette readable, never pitch black.
+ const moonlight=new THREE.DirectionalLight(0xb8cbe0,2.6);moonlight.position.set(-32,45,32);creditsExterior.add(moonlight);
+ creditsExterior.add(new THREE.HemisphereLight(0x9eabb9,0x393026,1.35));
+ for(const x of [-12,12]){const lantern=new THREE.PointLight(0xffbd7a,5.5,24,1.5);lantern.position.set(x,5,-12);creditsExterior.add(lantern);block(creditsExterior,.22,1.8,.22,iron,x,2.4,-12);ball(creditsExterior,.34,gold,x,4.5,-12)}
+}buildCreditsExterior();
 function startCredits(){creditsReturn=state;startAudio();document.exitPointerLock?.();locked=false;$('#settings').classList.remove('show');$('#pause').classList.remove('show');$('#credits').classList.remove('show');$('#menu').classList.add('hide');$('#menu').style.display='none';$('#cinema').classList.add('show');cinemaMode=true;state='cinema';creditsStart=performance.now();house.visible=false;forestMenu.visible=false;prologueStage.visible=false;creditsExterior.visible=true;scene.fog.density=.008;camera.fov=58;camera.updateProjectionMatrix();}
 function endCredits(){$('#cinema').classList.remove('show');cinemaMode=false;state='menu';ambient.intensity=1.05;scene.fog.density=.012;camera.fov=78;camera.updateProjectionMatrix();creditsExterior.visible=false;house.visible=false;forestMenu.visible=true;$('#menu').style.display='';$('#menu').classList.remove('hide');camera.position.set(0,1.7,9);camera.lookAt(0,2,-17);}
 function begin(){startAudio();resetInvestigation();$('#menu').classList.add('hide');forestMenu.visible=false;house.visible=false;creditsExterior.visible=false;prologueStage.visible=true;ambient.intensity=.95;scene.fog.density=.008;$('#prologue').classList.add('show');state='prologue';prologueStart=performance.now();prologueIndex=0;prologueStage.userData.stages.forEach((g,n)=>g.visible=n===0);camera.position.set(0,4,14);camera.lookAt(0,2,-2);showPrologue(0)}
@@ -392,7 +432,7 @@ document.addEventListener('mousemove',e=>{if(!locked||state!=='game')return;yaw-
 const keys={};document.addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(state==='prologue'&&(e.key==='Enter'||e.key===' ')){e.preventDefault();advancePrologue();return;}if(k==='escape'){e.preventDefault();if($('#journal').classList.contains('show')){closeJournal();return;}if($('#settings').classList.contains('show')){closeSettings();return;}if(state==='game')pauseGame();else if(state==='paused')resumeGame();else if(state==='prologue')advancePrologue();else if(state==='cinema')endCredits();return;}keys[k]=true;if(k==='j'&&(state==='game'||state==='paused')){openJournal();return;}if(k==='e'&&state==='game')interact();if(k==='f'&&state==='game')toggleFlashlight();if(k==='r'&&state==='game')useSelectedItem();if(e.key>='1'&&e.key<='5'&&state==='game'){activeSlot=Number(e.key)-1;setInventory()}});document.addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);renderer.domElement.addEventListener('click',()=>{if(state==='game'&&!locked)renderer.domElement.requestPointerLock?.()});
 let creditsStart=0;const creditsRoute=new THREE.CatmullRomCurve3([new THREE.Vector3(-30,7,42),new THREE.Vector3(-17,5,28),new THREE.Vector3(0,4,20),new THREE.Vector3(0,6,8),new THREE.Vector3(0,7,-3),new THREE.Vector3(10,4,-7),new THREE.Vector3(0,5,-14),new THREE.Vector3(-12,4,-5),new THREE.Vector3(0,3,3)]);let flashAt=2.5,flashStart=-99,menuSide=1,nextSide=0;function menuLightning(t){if(t>flashAt){flashStart=t;flashAt=t+4+Math.random()*5;menuSide=Math.random()>.5?1:-1;menuStalker.position.set(menuSide*(5+Math.random()*4),0,-15-Math.random()*10);menuStalker.rotation.y=menuSide>0?-0.3:.3;if(lightningBolt){lightningBolt.position.x=(Math.random()-.5)*9;lightningBolt.position.z=-1-Math.random()*5}}const age=t-flashStart;const power=age>=0&&age<.11?65:age>=.16&&age<.23?38:0;menuFlash.intensity=power;menuFill.intensity=power?1.2:0;if(lightningBolt)lightningBolt.visible=age>=0&&age<.13}
 let perfEnabled=false,perfFrames=0,perfLast=performance.now(),perfFrameMs=0;function setPerformanceOverlay(enabled){perfEnabled=Boolean(enabled);$('#perfOverlay').classList.toggle('show',perfEnabled&&state==='game');try{localStorage.setItem('the-hollow-perf-v1',perfEnabled?'1':'0')}catch(e){}$('#showPerf').checked=perfEnabled;}try{perfEnabled=localStorage.getItem('the-hollow-perf-v1')==='1';$('#showPerf').checked=perfEnabled}catch(e){}function updatePerformanceOverlay(now,dt){if(!perfEnabled||state!=='game'){if($('#perfOverlay').classList.contains('show'))$('#perfOverlay').classList.remove('show');return}$('#perfOverlay').classList.add('show');perfFrames++;perfFrameMs=dt*1000;if(now-perfLast>=500){const fps=Math.round(perfFrames*1000/(now-perfLast));$('#perfOverlay').textContent='FPS '+fps+'\\nFRAME '+perfFrameMs.toFixed(1)+' ms\\nDRAW CALLS '+renderer.info.render.calls;perfFrames=0;perfLast=now;}}const clockStart=clock.elapsedTime;function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.04),t=clock.elapsedTime-clockStart;if(importedMixer)importedMixer.update(dt);
-if(state==='menu'){menuLightning(t);camera.position.set(0,1.7,9);camera.lookAt(0,2,-17)}else if(state==='prologue'){updatePrologue(t)}else if(state==='cinema'){house.visible=false;forestMenu.visible=false;prologueStage.visible=false;creditsExterior.visible=true;const ct=(performance.now()-creditsStart)/1000,progress=(ct%54)/54;const route=[new THREE.Vector3(-42,16,42),new THREE.Vector3(-28,11,20),new THREE.Vector3(-8,8,30),new THREE.Vector3(18,10,23),new THREE.Vector3(38,14,2),new THREE.Vector3(22,11,-25),new THREE.Vector3(-8,8,-32),new THREE.Vector3(-34,12,-18)];const segment=progress*route.length,index=Math.floor(segment)%route.length,blend=segment-Math.floor(segment);camera.position.copy(route[index]).lerp(route[(index+1)%route.length],blend);camera.lookAt(0,4,0);const label=ct<8?'A MICROVERSE ORIGINAL':ct<18?'THE HOUSE HOLDS ITS BREATH':ct<31?'EVERY ROOM HIDES A MEMORY':'THE HOLLOW · CREDITS';$('#creditsChapter').textContent=label;}
+if(state==='menu'){menuLightning(t);camera.position.set(0,1.7,9);camera.lookAt(0,2,-17)}else if(state==='prologue'){updatePrologue(t)}else if(state==='cinema'){house.visible=false;forestMenu.visible=false;prologueStage.visible=false;creditsExterior.visible=true;const ct=(performance.now()-creditsStart)/1000,progress=(ct%54)/54;const route=[new THREE.Vector3(-48,18,8),new THREE.Vector3(-38,13,-20),new THREE.Vector3(-22,10,-52),new THREE.Vector3(0,17,-60),new THREE.Vector3(28,13,-48),new THREE.Vector3(46,17,-18),new THREE.Vector3(38,12,12),new THREE.Vector3(18,8,42),new THREE.Vector3(0,7,76),new THREE.Vector3(-18,12,35)];const segment=progress*route.length,index=Math.floor(segment)%route.length,blend=segment-Math.floor(segment);camera.position.copy(route[index]).lerp(route[(index+1)%route.length],blend);camera.lookAt(0,5,-25);const label=ct<8?'A MICROVERSE ORIGINAL':ct<18?'THE HOUSE HOLDS ITS BREATH':ct<31?'EVERY ROOM HIDES A MEMORY':'THE HOLLOW · CREDITS';$('#creditsChapter').textContent=label;}
 if(state==='game'){camera.rotation.order='YXZ';camera.rotation.set(pitch,yaw,0);const forward=new THREE.Vector3(-Math.sin(yaw),0,-Math.cos(yaw)),right=new THREE.Vector3(Math.cos(yaw),0,-Math.sin(yaw));const dir=new THREE.Vector3().addScaledVector(forward,(keys.w?1:0)-(keys.s?1:0)).addScaledVector(right,(keys.d?1:0)-(keys.a?1:0));const crouching=keys.c||keys.control;const sprinting=keys.shift&&!crouching&&!isHidden&&stamina>0.5&&dir.lengthSq()>0;$('#stanceLabel').textContent=crouching?'MERUNDUK':'BERDIRI';if(isHidden)dir.set(0,0,0);if(dir.lengthSq())dir.normalize();if(sprinting){stamina=Math.max(0,stamina-30*dt);staminaRegenAt=clock.elapsedTime+1.15;if(stamina===0&&!staminaExhaustedNotified){staminaExhaustedNotified=true;notify('STAMINA HABIS · TUNGGU UNTUK PULIH');}}else if(clock.elapsedTime>=staminaRegenAt){stamina=Math.min(100,stamina+20*dt);if(stamina>=25)staminaExhaustedNotified=false;}velocity.lerp(dir.multiplyScalar(sprinting?4:crouching?1.05:2.1),1-Math.exp(-8*dt));const nextX=camera.position.x+velocity.x*dt,nextZ=camera.position.z+velocity.z*dt;if(!playerPositionBlocked(nextX,camera.position.z))camera.position.x=nextX;if(!playerPositionBlocked(camera.position.x,nextZ))camera.position.z=nextZ;camera.position.x=THREE.MathUtils.clamp(camera.position.x,-21.4,21.4);camera.position.z=THREE.MathUtils.clamp(camera.position.z,-15.4,14.4);const moving=velocity.length()>.2;if(moving&&clock.elapsedTime-lastFootstepAt>(sprinting ? 0.48 : crouching?1.35:0.82)){lastFootstepAt=clock.elapsedTime;playerNoisePosition.set(camera.position.x,0,camera.position.z);playerNoiseRadius=crouching?4.5:sprinting?16:9;playerNoiseUntil=clock.elapsedTime+(crouching?1.2:sprinting?4:2.2);}walkPhase+=dt*(moving?10:2);camera.position.y=isHidden?(hiddenSpot==='bed'?.58:1.68):crouching?1.05+(moving?Math.sin(walkPhase)*.012:0):1.68+(moving?Math.sin(walkPhase)*.035:0);for(const d of doors)d.pivot.rotation.y=THREE.MathUtils.damp(d.pivot.rotation.y,d.target,5,dt);if(animatedStatue){animatedStatue.rotation.y=THREE.MathUtils.damp(animatedStatue.rotation.y,Math.sin(t*.35)*.28+(Math.sin(t*.1)>0.97?.5:0),1.2,dt)}for(const b of bulbs)b.intensity=b.userData.base*(.8+.2*Math.sin(t*4+bulbs.indexOf(b)));for(const e of eyeTargets){const dx=THREE.MathUtils.clamp((camera.position.x-e.x)*.03,-.035,.035);e.pupil.position.x=dx}updateAim();if(camera.position.z<-15.3&&Math.abs(camera.position.x)<2.4)camera.position.z=-15.3}
 if(state==='game'){updateKiller(dt);if(isHidden&&flashlightOn){flashlightOn=false;flashlightBeam.intensity=0;updateStatusUI()}if(flashlightOn){flashlightBattery=Math.max(0,flashlightBattery-dt*.7);if(flashlightBattery===0){flashlightOn=false;flashlightBeam.intensity=0;notify('BATERAI SENTER HABIS')}}if(Math.floor(t*2)!==Math.floor((t-dt)*2))updateStatusUI();if(t-lastAutosave>8){lastAutosave=t;saveGame()}}if(state==='paused'||state==='journal'){camera.rotation.order='YXZ';return;}updatePerformanceOverlay(performance.now(),dt);renderer.render(scene,camera)}
 setInventory();updateStatusUI();animate();addEventListener('resize',resizeRenderer);
