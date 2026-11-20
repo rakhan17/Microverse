@@ -31,7 +31,7 @@ His father is away. The doors to the rest of the estate are waiting. Somewhere i
 |---|---|
 | W / A / S / D | Move |
 | Mouse | Look around |
-| Shift | Run (louder and easier to detect) |
+| Shift | Run (uses stamina, louder and easier to detect) |
 | C / Ctrl (hold) | Crouch (slower and quieter; held keys reset on window blur) |
 | E | Interact with the highlighted object or door |
 | 1–5 | Select inventory slot |
